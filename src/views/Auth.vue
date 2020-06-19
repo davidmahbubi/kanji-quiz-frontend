@@ -4,7 +4,9 @@
             <router-link :to="{name: 'AuthLogin'}">
                 <img src="@/assets/kanji-logo-big.svg" alt="Kanji Logo" class="auth-logo">
             </router-link>
-            <router-view class="auth-view"></router-view>
+            <Animated enter="slideInUp" leave="slideOutDown" mode="out-in">
+                <router-view class="auth-view"></router-view>
+            </Animated>
         </b-container>
     </div>
 </template>
