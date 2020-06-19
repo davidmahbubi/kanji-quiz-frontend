@@ -6,6 +6,7 @@ import store from './store';
 require('./libs/bootstrap-vue.module');
 require('./libs/vue-axios.module');
 require('./libs/vue-animated.module');
+require('./libs/notiflix.module');
 
 Vue.config.productionTip = false
 
