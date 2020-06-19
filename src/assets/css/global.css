@@ -1,0 +1,61 @@
+@font-face {
+    font-family: 'Alef-Regular';
+    src: url('../fonts/alef_regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Alef-Bold';
+    src: url('../fonts/alef_bold.woff2') format('woff2');
+}
+
+body {
+    font-family: 'Alef-Regular' !important;
+}
+
+.row {
+    margin: 0 !important;
+}
+
+.text-custom-primary {
+    color: #8900CE;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Alef-Bold' !important;
+    font-weight: bold !important;
+}
+
+.text-custom-bold {
+    font-family: 'Alef-Bold';
+    font-weight: bold;
+}
+
+.input-custom-primary {
+    border: none;
+    border-bottom: 1.5px solid #8900CE;
+    color: #8900CE;
+    outline: none;
+    font-size: 18px;
+}
+
+.link-custom-primary {
+    color: #8900CE;
+}
+
+.link-custom-primary:hover {
+    text-decoration: none;
+    color: #7d02bb;
+}
+
+.btn-custom-primary {
+    background-color: #8900CE !important;
+    color: white !important;
+    padding: 10px 0 !important;
+    box-shadow: 0 4px 2px rgba(0,0,0,.2);
+}
+
+.btn-custom-primary:hover {
+    color: white !important;
+    background-color: #7d02bb !important;
+    box-shadow: 0 6px 5px rgba(0,0,0,.25);
+}

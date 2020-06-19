@@ -1,0 +1,8 @@
+/* font converted using font-converter.net. thank you! */
+@font-face {
+  font-family: "Alef-Regular";
+
+  src: url("./fonts/Alef-Regular.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+}
