@@ -2,7 +2,7 @@
     <div id="auth-page">
         <b-container>
             <router-link :to="{name: 'AuthLogin'}">
-                <img src="../assets/kanji-logo-big.svg" alt="Kanji Logo" class="auth-logo">
+                <img src="@/assets/kanji-logo-big.svg" alt="Kanji Logo" class="auth-logo">
             </router-link>
             <router-view class="auth-view"></router-view>
         </b-container>
