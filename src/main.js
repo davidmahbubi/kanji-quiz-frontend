@@ -8,6 +8,8 @@ require('./libs/vue-axios.module');
 require('./libs/vue-animated.module');
 require('./libs/notiflix.module');
 
+/** import validate from '@/commons/'; */
+
 Vue.config.productionTip = false
 
 new Vue({
