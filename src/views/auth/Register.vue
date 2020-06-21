@@ -1,12 +1,32 @@
 <template>
     <div id="register-page">
         <auth-form-card>
-            <form action="">
+            <form @submit.prevent="submit">
                 <h3 class="text-custom-primary auth-form-title">Registration</h3>
-                <input type="text" class="input-custom-primary w-100 mb-5" placeholder="Name">
-                <input type="text" class="input-custom-primary w-100 mb-5" placeholder="Username">
-                <input type="password" class="input-custom-primary w-100 mb-5" placeholder="Password">
-                <input type="password" class="input-custom-primary w-100 mb-5" placeholder="Password Confirmation">
+                <b-form-group class="mb-5">
+                    <input type="text" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.name}" placeholder="Name" v-model="userInput.name">
+                    <b-form-invalid-feedback>
+                        <span>{{ validationErrors.name }}</span>
+                    </b-form-invalid-feedback>
+                </b-form-group>
+                <b-form-group class="mb-5">
+                    <input type="text" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.username}" placeholder="Username" v-model="userInput.username">
+                    <b-form-invalid-feedback>
+                        <span>{{ validationErrors.username }}</span>
+                    </b-form-invalid-feedback>
+                </b-form-group>
+                <b-form-group class="mb-5">
+                    <input type="password" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.password}" placeholder="Password" v-model="userInput.password">
+                    <b-form-invalid-feedback>
+                        <span>{{ validationErrors.password }}</span>
+                    </b-form-invalid-feedback>
+                </b-form-group>
+                <b-form-group class="mb-5">
+                    <input type="password" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.passwordConfirmation}" placeholder="Password Confirmation" v-model="userInput.passwordConfirmation">
+                    <b-form-invalid-feedback>
+                        <span>{{ validationErrors.passwordConfirmation }}</span>
+                    </b-form-invalid-feedback>
+                </b-form-group>
                 <button type="submit" class="btn btn-custom-primary w-100">Sign Up</button>
             </form>
             <div class="text-center mt-3">
@@ -18,12 +38,65 @@
 
 <script>
 
+import validate from '@/commons/validation.service';
+import validationMixin from '@/mixins/validation';
 import AuthFormCard from '@/components/AuthFormCard.vue';
 
 export default {
+
+    mixins: [validationMixin],
+
+    data() {
+        return {
+            userInput: {
+                name: '',
+                username: '',
+                password: '',
+                passwordConfirmation: '',
+            }
+        }
+    },
+
     components: {
         AuthFormCard,
     },
+
+    methods: {
+
+        submit() {
+
+            this.validation();
+
+            if (!this.isValidationerror) {
+                console.log('Will send the data to server');
+            }
+        },
+
+        validation() {
+
+            this.cleanErrorMessage();
+            
+            this.setRules({
+                name: 'required',
+                username: 'required',
+                password: 'required|min:3',
+                passwordConfirmation: `required|same:password,${this.userInput.password}`,
+            });
+
+            for (const inputKey in this.userInput) {
+
+                const validationResult = validate(this.userInput[inputKey], this.validationRules[inputKey]);
+
+                if (validationResult) {
+                    this.pushErrorMessage(inputKey, validationResult);
+                } else {
+                    this.purgeErrorMessage(inputKey);
+                }
+            }
+
+        }
+    }
+
 };
 
 </script>
