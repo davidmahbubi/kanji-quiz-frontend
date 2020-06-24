@@ -1,6 +1,7 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '@/views/Home.vue';
+import Login from '@/views/auth/Login.vue';
 
 Vue.use(VueRouter)
 
@@ -11,18 +12,13 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
     path: '/auth',
     name: 'Auth',
     children: [
       {
         path: 'login',
         name: 'AuthLogin',
-        component: () => import(/* webpackChunkName: "auth-login" */ '../views/auth/Login.vue')
+        component: Login,
       },
       {
         path: 'register',
