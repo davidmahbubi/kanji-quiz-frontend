@@ -1,3 +1,9 @@
+/**
+ * Notiflix
+ * 
+ * https://www.notiflix.com/documentation
+ */
+
 import Notiflix from 'notiflix';
 
 Notiflix.Notify.Init({

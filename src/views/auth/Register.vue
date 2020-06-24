@@ -41,6 +41,7 @@
 import validate from '@/commons/validation.service';
 import validationMixin from '@/mixins/validation';
 import AuthFormCard from '@/components/AuthFormCard.vue';
+import { USER_REGISTER } from '@/store/actions.type';
 
 export default {
 
@@ -63,12 +64,22 @@ export default {
 
     methods: {
 
-        submit() {
-
+        async submit() {
             this.validation();
-
             if (!this.isValidationerror) {
-                console.log('Will send the data to server');
+                try {
+                    const { name, username, password, passwordConfirmation } = this.userInput;
+                    const sendData = await this.$store.dispatch(`auth/${USER_REGISTER}`, {
+                        name,
+                        username,
+                        password,
+                        password_confirmation: passwordConfirmation,
+                    });
+                    this.$router.push({name: 'AuthLogin'});
+                    Notiflix.Notify.Success('Registered ! Now you can login 😁');
+                } catch (error) {
+                    Notiflix.Notify.Failure(`Failed to register ${error}`);
+                }
             }
         },
 
