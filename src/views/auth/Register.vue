@@ -1,37 +1,39 @@
 <template>
     <div id="register-page">
         <auth-form-card>
-            <form @submit.prevent="submit">
-                <h3 class="text-custom-primary auth-form-title">Registration</h3>
-                <b-form-group class="mb-5">
-                    <input type="text" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.name}" placeholder="Name" v-model="userInput.name">
-                    <b-form-invalid-feedback>
-                        <span>{{ validationErrors.name }}</span>
-                    </b-form-invalid-feedback>
-                </b-form-group>
-                <b-form-group class="mb-5">
-                    <input type="text" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.username}" placeholder="Username" v-model="userInput.username">
-                    <b-form-invalid-feedback>
-                        <span>{{ validationErrors.username }}</span>
-                    </b-form-invalid-feedback>
-                </b-form-group>
-                <b-form-group class="mb-5">
-                    <input type="password" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.password}" placeholder="Password" v-model="userInput.password">
-                    <b-form-invalid-feedback>
-                        <span>{{ validationErrors.password }}</span>
-                    </b-form-invalid-feedback>
-                </b-form-group>
-                <b-form-group class="mb-5">
-                    <input type="password" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.passwordConfirmation}" placeholder="Password Confirmation" v-model="userInput.passwordConfirmation">
-                    <b-form-invalid-feedback>
-                        <span>{{ validationErrors.passwordConfirmation }}</span>
-                    </b-form-invalid-feedback>
-                </b-form-group>
-                <button type="submit" class="btn btn-custom-primary w-100">Sign Up</button>
-            </form>
-            <div class="text-center mt-3">
-                <router-link :to="{name: 'AuthLogin'}" class="link-custom-primary">Already have an account ?</router-link>
-            </div>
+            <b-overlay :show.sync="loading">
+                <form @submit.prevent="submit">
+                    <h3 class="text-custom-primary auth-form-title">Registration</h3>
+                    <b-form-group class="mb-5">
+                        <input type="text" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.name}" placeholder="Name" v-model="userInput.name">
+                        <b-form-invalid-feedback>
+                            <span>{{ validationErrors.name }}</span>
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <b-form-group class="mb-5">
+                        <input type="text" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.username}" placeholder="Username" v-model="userInput.username">
+                        <b-form-invalid-feedback>
+                            <span>{{ validationErrors.username }}</span>
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <b-form-group class="mb-5">
+                        <input type="password" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.password}" placeholder="Password" v-model="userInput.password">
+                        <b-form-invalid-feedback>
+                            <span>{{ validationErrors.password }}</span>
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <b-form-group class="mb-5">
+                        <input type="password" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.passwordConfirmation}" placeholder="Password Confirmation" v-model="userInput.passwordConfirmation">
+                        <b-form-invalid-feedback>
+                            <span>{{ validationErrors.passwordConfirmation }}</span>
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <button type="submit" class="btn btn-custom-primary w-100">Sign Up</button>
+                </form>
+                <div class="text-center mt-3">
+                    <router-link :to="{name: 'AuthLogin'}" class="link-custom-primary">Already have an account ?</router-link>
+                </div>
+            </b-overlay>
         </auth-form-card>
     </div>
 </template>
@@ -54,7 +56,8 @@ export default {
                 username: '',
                 password: '',
                 passwordConfirmation: '',
-            }
+            },
+            loading: false,
         }
     },
 
@@ -66,11 +69,12 @@ export default {
 
         async submit() {
 
+            this.loading = true;
             this.validation();
 
-            if (!this.isValidationError) {
+            try {
 
-                try {
+                if (!this.isValidationError) {
 
                     const { name, username, password, passwordConfirmation } = this.userInput;
                     const sendData = await this.$store.dispatch(`auth/${USER_REGISTER}`, {
@@ -82,19 +86,22 @@ export default {
 
                     this.$router.push({name: 'AuthLogin'});
 
-                    Notiflix.Notify.Success('Registered ! Now you can login 😁');
-
-                } catch (error) {
-
-                    let errorCode = String(error).split(' ');
-                    errorCode = errorCode[errorCode.length - 1];
-
-                    if (errorCode == 503) {
-                        error = 'Username already taken, try another one';
-                    }
-                
-                    Notiflix.Notify.Failure(`🔥 Failed to register : ${error}`);
+                    Notiflix.Notify.Success('Registered ! Now you can login 😁');                
                 }
+
+            } catch (error) {
+
+                let errorCode = String(error).split(' ');
+                errorCode = errorCode[errorCode.length - 1];
+
+                if (errorCode == 503) {
+                    error = 'Username already taken, try another one';
+                }
+                
+                Notiflix.Notify.Failure(`🔥 Failed to register : ${error}`);
+                 
+            } finally {
+                this.loading = false;
             }
         },
 
