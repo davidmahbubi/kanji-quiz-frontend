@@ -11,7 +11,7 @@ export default {
     data() {
         return {
             validationErrors: Object(),
-            isValidationerror: false,
+            isValidationError: false,
             validationRules: Object(),
         }
     },
@@ -20,14 +20,14 @@ export default {
     },
     methods: {
         pushErrorMessage(key, value) {
-            this.isValidationerror = true;
+            this.isValidationError = true;
             this.validationErrors[key] = value;
         },
         purgeErrorMessage(key) {
             delete this.validationErrors[key];
         },
         cleanErrorMessage() {
-            this.isValidationerror = false;
+            this.isValidationError = false;
             this.validationErrors = Object();
         },
         setRules(rules) {

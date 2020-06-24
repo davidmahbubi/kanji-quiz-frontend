@@ -71,7 +71,6 @@ const auth = {
      * @param {*} params 
      */
     post(slug, params) {
-        console.log(params);
         return apiService.post(`auth/${slug}`, params);
     },
 }

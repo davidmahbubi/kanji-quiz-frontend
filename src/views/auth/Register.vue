@@ -68,7 +68,7 @@ export default {
 
             this.validation();
 
-            if (!this.isValidationerror) {
+            if (!this.isValidationError) {
 
                 try {
 
