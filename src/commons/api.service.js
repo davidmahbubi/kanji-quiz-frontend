@@ -29,6 +29,7 @@ const apiService = {
     get(resource, slug = '') {
         return Vue.axios.get(`${API_BASE_URL}/${resource}/${slug}`).catch((error) => {
             makeLog('SERVICE', error, true, true);
+            throw new Error(error);
         });
     },
 
@@ -41,6 +42,7 @@ const apiService = {
     query(resource, params = '') {
         return Vue.axios.get(`${API_BASE_URL}/${resource}`, params).catch((error) => {
             makeLog('SERVICE', error, true, true);
+            throw new Error(error);
         });
     },
 
@@ -54,6 +56,7 @@ const apiService = {
         makeLog('SERVICE^', API_BASE_URL);
         return Vue.axios.post(`${API_BASE_URL}/${resource}`, params).catch((error) => {
             makeLog('SERVICE', error, true, true);
+            throw new Error(error);
         });
     }
 

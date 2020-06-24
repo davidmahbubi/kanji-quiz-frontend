@@ -65,9 +65,13 @@ export default {
     methods: {
 
         async submit() {
+
             this.validation();
+
             if (!this.isValidationerror) {
+
                 try {
+
                     const { name, username, password, passwordConfirmation } = this.userInput;
                     const sendData = await this.$store.dispatch(`auth/${USER_REGISTER}`, {
                         name,
@@ -75,10 +79,21 @@ export default {
                         password,
                         password_confirmation: passwordConfirmation,
                     });
+
                     this.$router.push({name: 'AuthLogin'});
+
                     Notiflix.Notify.Success('Registered ! Now you can login 😁');
+
                 } catch (error) {
-                    Notiflix.Notify.Failure(`Failed to register ${error}`);
+
+                    let errorCode = String(error).split(' ');
+                    errorCode = errorCode[errorCode.length - 1];
+
+                    if (errorCode == 503) {
+                        error = 'Username already taken, try another one';
+                    }
+                
+                    Notiflix.Notify.Failure(`🔥 Failed to register : ${error}`);
                 }
             }
         },
