@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+    <Animated enter="bounceIn" leave="bounceOut" duration="750" :mode="'out-in'">
+      <router-view/>
+    </Animated>
   </div>
 </template>
 

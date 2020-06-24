@@ -1,25 +1,27 @@
 <template>
     <div id="login-page">    
         <auth-form-card>
-            <form @submit.prevent="submit">
-                <h3 class="text-custom-primary auth-form-title">Welcome</h3>
-                <b-form-group class="mb-5">
-                    <input type="text" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.username}" placeholder="Username" v-model="userInput.username">
-                    <b-form-invalid-feedback>
-                        <span>{{ validationErrors.username }}</span>
-                    </b-form-invalid-feedback>
-                </b-form-group>
-                <b-form-group class="mb-5">
-                    <input type="password" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.password}" placeholder="Password" v-model="userInput.password">
-                    <b-form-invalid-feedback>
-                        <span>{{ validationErrors.password }}</span>
-                    </b-form-invalid-feedback>
-                </b-form-group>
-                <button type="submit" class="btn btn-custom-primary w-100">Sign In</button>
-            </form>
-            <div class="text-center mt-3">
-                <router-link :to="{name: 'AuthRegister'}" class="link-custom-primary">Don't have an account ?</router-link>
-            </div>
+            <b-overlay :show.sync="loading">
+                <form @submit.prevent="submit">
+                    <h3 class="text-custom-primary auth-form-title">Welcome</h3>
+                    <b-form-group class="mb-5">
+                        <input type="text" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.username}" placeholder="Username" v-model="userInput.username">
+                        <b-form-invalid-feedback>
+                            <span>{{ validationErrors.username }}</span>
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <b-form-group class="mb-5">
+                        <input type="password" class="input-custom-primary w-100" :class="{'is-invalid': validationErrors.password}" placeholder="Password" v-model="userInput.password">
+                        <b-form-invalid-feedback>
+                            <span>{{ validationErrors.password }}</span>
+                        </b-form-invalid-feedback>
+                    </b-form-group>
+                    <button type="submit" class="btn btn-custom-primary w-100">Sign In</button>
+                </form>
+                <div class="text-center mt-3">
+                    <router-link :to="{name: 'AuthRegister'}" class="link-custom-primary">Don't have an account ?</router-link>
+                </div>
+            </b-overlay>
         </auth-form-card>
     </div>
 </template>
@@ -41,7 +43,8 @@ export default {
             userInput: {
                 username: '',
                 password: '',
-            }
+            },
+            loading: false,
         }
     },
 
@@ -53,23 +56,30 @@ export default {
 
         async submit() {
             
+            this.loading = true;
             this.validation();
 
-            if (!this.isValidationError) {   
-                try {
+            try {
+
+                if (!this.isValidationError) {
                     const sendData = await this.$store.dispatch(`auth/${USER_LOGIN}`, this.userInput);
+                    this.$router.replace({name: 'Home'});
                     Notiflix.Notify.Success('Authenticated successfully');
-                } catch (error) {
-
-                    let errorCode = String(error).split(' ');
-                    errorCode = errorCode[errorCode.length - 1];
-
-                    if (errorCode == 401) {
-                        error = 'Wrong credentials !';
-                    }
-
-                    Notiflix.Notify.Failure(`Login failed : ${error}`);
                 }
+
+            } catch (error) {
+
+                let errorCode = String(error).split(' ');
+                errorCode = errorCode[errorCode.length - 1];
+
+                if (errorCode == 401) {
+                    error = 'Wrong credentials !';
+                }
+
+                Notiflix.Notify.Failure(`Login failed : ${error}`);
+
+            } finally {
+                this.loading = false;
             }
         },
 
