@@ -63,8 +63,7 @@ export default {
 
                 if (!this.isValidationError) {
                     const sendData = await this.$store.dispatch(`auth/${USER_LOGIN}`, this.userInput);
-                    this.$router.replace({name: 'Home'});
-                    Notiflix.Notify.Success('Authenticated successfully');
+                    this.$router.push({name: 'Home'});
                 }
 
             } catch (error) {

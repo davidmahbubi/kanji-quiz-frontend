@@ -1,7 +1,7 @@
 import { auth } from '@/commons/api.service';
-import { setToken, getToken } from '@/commons/token.service';
-import { USER_REGISTER, USER_LOGIN } from '@/store/actions.type';
-import { STORE_TOKEN } from '@/store/mutations.type';
+import { setToken, getToken, purgeToken } from '@/commons/token.service';
+import { USER_REGISTER, USER_LOGIN, USER_LOGOUT } from '@/store/actions.type';
+import { STORE_TOKEN, PURGE_TOKEN } from '@/store/mutations.type';
 
 const state = {
   apiToken: getToken(),
@@ -16,9 +16,15 @@ const getters = {
 };
 
 const mutations = {
+
   [STORE_TOKEN](state, token) {
     state.apiToken = token;
+  },
+
+  [PURGE_TOKEN](state) {
+    state.apiToken = '';
   }
+
 };
 
 const actions = {
@@ -48,7 +54,14 @@ const actions = {
             reject(error);
           })
       });
-    }
+    },
+
+    [USER_LOGOUT]({ commit }) {
+      purgeToken();
+      commit(PURGE_TOKEN);
+      return true;
+    },
+    
 };
 
 export default {
