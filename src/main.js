@@ -4,10 +4,11 @@ import router from './router';
 import store from './store';
 import { apiService } from '@/commons/api.service';
 import { makeLog } from './commons/logger.service';
+import 'animate.css';
 
 require('./libs/bootstrap-vue.module');
 require('./libs/vue-axios.module');
-require('./libs/vue-animated.module');
+// require('./libs/vue-animated.module');
 require('./libs/notiflix.module');
 
 window.makeLog = makeLog;

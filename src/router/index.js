@@ -28,6 +28,11 @@ Vue.use(VueRouter)
       }
     ],
     component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue'),
+  },
+  {
+    path: '/quiz_area/:id',
+    name: 'QuizArea',
+    component: () => import(/* webpackChunkName: "quiz-area" */ '../views/QuizArea.vue'),
   }
 ]
 
