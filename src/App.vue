@@ -1,17 +1,13 @@
 <template>
   <div id="app" :class="{'margin-left-navbar': isAuthenticated}">
-    <div class="topbar-account-info" v-if="isAuthenticated">
-        <div class="row">
-          <div class="col-8 pr-3 text-right p-0">
-            <h5 class="text-custom-primary topbar-user-name m-0">Miyawaki Sakura</h5>
-            <span>120xp</span>
-          </div>
-          <div class="col-4 p-0 text-left">
-            <img src="./assets/miyawaki-sakura.jpg" alt="" class="profile-picture rounded-circle">
-          </div>
-        </div>
-    </div>
-      <sidebar @logout-clicked="logout" v-if="isAuthenticated"/>
+    <topbar>
+      <topbar-sidebar-toggler @clicked="toggleSidebar" />
+      <template slot="right-side">
+        <topbar-profile-info/>
+      </template>
+    </topbar>
+      <div class="sidebar-overlay position-fixed" :class="{'active': !sidebarCollapse}" @click="toggleSidebar"></div>
+      <sidebar @logout-clicked="logout" v-if="isAuthenticated" :sidebarCollapse="sidebarCollapse"/>
       <transition name="fade" mode="out-in">
         <router-view class="main-router-view px-md-5 px-3" :class="{'general-margin-y': isAuthenticated}" />
       </transition>
@@ -19,17 +15,47 @@
 </template>
 
 <script>
+
   import { USER_LOGOUT } from '@/store/actions.type';
+
+  import Topbar from '@/components/Topbar.vue'
   import Sidebar from '@/components/Sidebar.vue';
+  import TopbarProfileInfo from '@/components/TopbarProfileInfo.vue';
+  import TopbarSidebarToggler from '@/components/TopbarSidebarToggler.vue';
 
   export default {
 
+    data() {
+      return {
+        sidebarCollapse: false,
+      }
+    },
+
+    mounted() {
+      this.switchToggledSidebar();
+      window.addEventListener('resize', () => {
+        this.switchToggledSidebar();
+      });
+    },
+
     methods: {
+      
       logout() {
         if (this.$store.dispatch(`auth/${USER_LOGOUT}`)) {
           this.$router.push({ name: 'AuthLogin' });
         }
-      }
+      },
+
+      switchToggledSidebar() {
+        if (window.innerWidth <= 965) {
+          this.sidebarCollapse = true;
+        }
+      },
+
+      toggleSidebar() {
+        this.sidebarCollapse = !this.sidebarCollapse;
+      },
+
     },
 
     computed: {
@@ -40,9 +66,7 @@
 
     },
 
-    components: {
-      Sidebar,
-    }
+    components: { Topbar, Sidebar, TopbarProfileInfo, TopbarSidebarToggler}
 
   }
 </script>
@@ -51,45 +75,21 @@
 
 <style scoped>
 
-  .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 999;
-    width: 320px;
-    bottom: 0;
-  }
-
-  .topbar-user-name {
-    font-size: 17px;
-  }
-
-  .profile-picture {
-    width: 60px;
-    box-shadow: 0 0 10px rgba(146, 13, 255, 0.3);
-  }
-
-  .topbar-account-info {
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 999;
-    text-align: right;
-    padding: 15px 25px;
-  }
-
-  .topbar-account-info>.row {
-    width: 254px;
-  }
-
   .general-margin-y {
     margin-top: 90px;
-    /* margin-bottom: 90px; */
+  }
+
+  .sidebar-overlay {
+    display: none;
+    z-index: 99;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background-color: rgba(0,0,0,.3);
   }
 
   .main-router-view {
     height: 100vh;
     overflow: auto;
+    margin-top: 130px;
   }
 
   .margin-left-navbar {
@@ -97,9 +97,15 @@
   }
 
   @media(max-width: 926px) {
+
     .margin-left-navbar {
       margin-left: 0px;
-    } 
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
   }
   
 </style>

@@ -1,10 +1,6 @@
 <template>
-    <div class="sidebar">
-        <div class="sidebar-area" :class="{'sidebar-area-collapse': sidebarCollapse}">
-            <div class="sidebar-toggler" @click="toggleSidebar">
-                <b-icon-chevron-double-right class="toggler-icon-right t-icon" v-if="sidebarCollapse"></b-icon-chevron-double-right>
-                <b-icon-chevron-double-left class="toggler-icon-left t-icon" v-else></b-icon-chevron-double-left>
-            </div>
+    <div class="sidebar" :class="{'sidebar-collapse': sidebarCollapse}">
+        <div class="sidebar-area">
             <div class="sidebar-container">
                 <div class="brand-logo">
                     <img src="../assets/kanji-logo-big.svg" alt="Kanji Logo" class="sidebar-logo">
@@ -36,15 +32,8 @@ export default {
 
     name: 'Sidebar',
 
-    data() {
-        return {
-            sidebarCollapse: false
-        }
-    },
-
-    mounted() {
-        this.decideToCollapse();
-        window.addEventListener('resize', this.decideToCollapse);
+    props: {
+        sidebarCollapse: Boolean,
     },
 
     methods: {
@@ -53,21 +42,11 @@ export default {
             this.$emit('logout-clicked');
         },
 
-        toggleSidebar() {
-            this.sidebarCollapse = !this.sidebarCollapse;
-        },
-
-        decideToCollapse() {
-            if (window.innerWidth < 926) {
-                this.sidebarCollapse = true;
-            }
-        },
-
         isInRouteName(name) {
             return this.$route.name === name;
         }
         
-    }
+    },
 
 }
 
@@ -75,32 +54,14 @@ export default {
 
 <style scoped>
 
-.sidebar-area {
-    transition: .2s;
-}
-
-.sidebar-toggler {
-    background-color: transparent;
+.sidebar {
     position: fixed;
-    display: none;
-    cursor: pointer;
-    left: 320px;
-    font-size: 25px;
-    padding: 10px 15px 10px 10px;
-    color: #8900CE;
-    transition: .1s;
-}
-
-.sidebar-toggler:hover>.toggler-icon-right, .toggler-icon-left {
-    transform: translateX(8px);
-}
-
-.sidebar-toggler:hover>.toggler-icon-left {
-    transform: translateX(-1px);
-}
-
-.t-icon {
-    transition: inherit;
+    left: 0;
+    transition: .2s;
+    top: 0;
+    z-index: 999;
+    width: 320px;
+    bottom: 0;
 }
 
 .brand-logo {
@@ -148,7 +109,7 @@ export default {
 }
 
 @media(max-width: 926px) {
-    .sidebar-area-collapse {
+    .sidebar-collapse {
         transform: translateX(-320px);
     }
     .sidebar-toggler {
