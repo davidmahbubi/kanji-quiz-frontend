@@ -11,10 +11,10 @@
                 </div>
                 <div class="sidebar-menu-list">
                     <ul class="p-0">
-                        <li class="sidebar-item text-custom-primary sidebar-active">
+                        <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('Home')}">
                             <router-link :to="{name: 'Home'}">Dashboard</router-link>
                         </li>
-                        <li class="sidebar-item">
+                        <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('QuizArea')}">
                             <router-link :to="{name: 'QuizArea', params: {id: 'start'}}">Quiz Area</router-link>
                         </li>
                         <li class="sidebar-item">
@@ -61,6 +61,10 @@ export default {
             if (window.innerWidth < 926) {
                 this.sidebarCollapse = true;
             }
+        },
+
+        isInRouteName(name) {
+            return this.$route.name === name;
         }
         
     }
