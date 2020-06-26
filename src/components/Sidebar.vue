@@ -110,7 +110,7 @@ export default {
 
 @media(max-width: 926px) {
     .sidebar-collapse {
-        transform: translateX(-320px);
+        transform: translateX(-400px);
     }
     .sidebar-toggler {
         display: block;
