@@ -13,8 +13,8 @@
                         <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('QuizArea')}">
                             <router-link :to="{name: 'QuizArea', params: {id: 'start'}}">Quiz Area</router-link>
                         </li>
-                        <li class="sidebar-item">
-                            <router-link to="/">Statistics</router-link>
+                        <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('Statistics')}">
+                            <router-link :to="{name: 'Statistics'}">Statistics</router-link>
                         </li>
                         <li class="sidebar-item">
                             <a href="#" @click.prevent="logout">Sign out</a>

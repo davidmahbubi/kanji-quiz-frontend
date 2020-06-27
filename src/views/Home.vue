@@ -1,17 +1,23 @@
 <template>
   <div class="home">
-    <section id="home-empty-space">
-      <img src="../assets/empty.svg" alt="Empty" class="empty-image">
-      <h2 class="text-custom-primary">Ouch, look so spacious here </h2>
+    <empty-page class="mt-5" :img-src="require('../assets/empty.svg')" img-max-width="350px" title="Looks so spacious here">
       <button class="btn px-3 mt-3 btn-custom-primary">Start First Quiz</button>
-    </section>
+    </empty-page>
   </div>
 </template>
 
 <script>
 
+import EmptyPage from '@/components/EmptyPage.vue';
+
 export default {
+
   name: 'Home',
+
+  components: {
+    EmptyPage,
+  },
+
 }
 
 </script>
