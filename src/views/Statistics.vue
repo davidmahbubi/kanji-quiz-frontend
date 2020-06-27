@@ -1,6 +1,8 @@
 <template>
-    <div class="statistics-page text-center py-5">
-        <empty-page :img-src="require('../assets/maintenance.svg')" img-max-width="300px" :title="'This Page is Under Maintenance'"></empty-page>        
+    <div class="statistics-page text-center">
+        <empty-page :img-src="require('../assets/under-construction.svg')" img-max-width="300px" :title="'Sorry :('">
+            <h5>This page is under massive construction</h5>
+        </empty-page>        
     </div>
 </template>
 
@@ -18,6 +20,8 @@ export default {
 
 <style scoped>
 
-
+.empty-page-component {
+    margin-top: 30vh;
+}
 
 </style>

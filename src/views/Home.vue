@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <empty-page class="mt-5" :img-src="require('../assets/empty.svg')" img-max-width="350px" title="Looks so spacious here">
+    <empty-page :img-src="require('../assets/empty.svg')" img-max-width="350px" title="Looks so spacious here">
       <button class="btn px-3 mt-3 btn-custom-primary">Start First Quiz</button>
     </empty-page>
   </div>
@@ -23,6 +23,10 @@ export default {
 </script>
 
 <style scoped>
+
+.empty-page-component {
+    margin-top: 15vh;
+}
 
 .home {
   text-align: center;
