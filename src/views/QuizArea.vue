@@ -1,5 +1,5 @@
 <template>
-    <div class="quiz-area-page">
+    <div class="quiz-area-page py-5">
         <h3 class="text-custom-primary">Quiz Area</h3>
         <span>{{ getCurrentNumber }}</span>
         <b-container>
@@ -108,10 +108,12 @@
         components: {
             QuizCard,
         },
+
     }
 </script>
 
 <style scoped>
+
     .level-selector {
         margin-top: 20vh;
     }
@@ -119,4 +121,5 @@
     .quiz-area {
         margin-top: 70px;
     }
+
 </style>

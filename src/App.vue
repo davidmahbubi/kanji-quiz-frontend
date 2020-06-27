@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="{'margin-left-navbar': isAuthenticated}">
-    <topbar>
+    <topbar v-if="isAuthenticated">
       <topbar-sidebar-toggler @clicked="toggleSidebar" />
       <template slot="right-side">
         <topbar-profile-info/>
@@ -84,12 +84,6 @@
     z-index: 99;
     top: 0; right: 0; bottom: 0; left: 0;
     background-color: rgba(0,0,0,.3);
-  }
-
-  .main-router-view {
-    height: 100vh;
-    overflow: auto;
-    margin-top: 130px;
   }
 
   .margin-left-navbar {
