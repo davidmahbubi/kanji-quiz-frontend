@@ -10,6 +10,11 @@
 import Vue from 'vue';
 import { API_BASE_URL } from '@/commons/config';
 import { makeLog } from './logger.service';
+import { getToken } from '@/commons/token.service';
+
+const setAuth = () => {
+    Vue.axios.defaults.headers.common['Authorization'] = `Bearer ${getToken() || ''}`;
+}
 
 const apiService = {
 
@@ -17,7 +22,7 @@ const apiService = {
      * initial function
      */
     init() {
-        // Vue.axios.defaults.headers.common['Accept'] = 'application/json';
+        Vue.axios.defaults.headers.common['Accept'] = 'application/json';
     },
 
     /**
@@ -73,9 +78,19 @@ const auth = {
     post(slug, params) {
         return apiService.post(`auth/${slug}`, params);
     },
+
+    /**
+     * get request method for auth
+     * 
+     * @param {*} slug 
+     */
+    get(slug) {
+        return apiService.get(`auth/${slug}`);
+    } 
 }
 
 export {
+    auth,
+    setAuth,
     apiService,
-    auth
 }

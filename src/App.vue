@@ -6,7 +6,7 @@
         <topbar-profile-info/>
       </template>
     </topbar>
-      <div class="sidebar-overlay position-fixed" :class="{'active': !sidebarCollapse}" @click="toggleSidebar"></div>
+      <div class="sidebar-overlay position-fixed" :class="{'active': !sidebarCollapse}" @click="toggleSidebar" v-if="isAuthenticated"></div>
       <sidebar @logout-clicked="logout" v-if="isAuthenticated" :sidebarCollapse="sidebarCollapse"/>
       <transition name="fade" mode="out-in">
         <router-view class="main-router-view px-md-5 px-3" :class="{'general-margin-y': isAuthenticated}" />
@@ -32,41 +32,35 @@
     },
 
     mounted() {
-      this.switchToggledSidebar();
-      window.addEventListener('resize', () => {
-        this.switchToggledSidebar();
-      });
+      /** Sidebar should collapse when its <= 965 */
+      if (window.innerWidth <= 965) {
+          this.sidebarCollapse = true;
+      }
     },
 
     methods: {
-      
       logout() {
         if (this.$store.dispatch(`auth/${USER_LOGOUT}`)) {
           this.$router.push({ name: 'AuthLogin' });
         }
       },
-
-      switchToggledSidebar() {
-        if (window.innerWidth <= 965) {
-          this.sidebarCollapse = true;
-        }
-      },
-
       toggleSidebar() {
         this.sidebarCollapse = !this.sidebarCollapse;
       },
-
     },
 
     computed: {
-
       isAuthenticated() {
         return !!this.$store.getters['auth/getToken'];
       },
-
     },
 
-    components: { Topbar, Sidebar, TopbarProfileInfo, TopbarSidebarToggler}
+    components: { 
+      Topbar, 
+      Sidebar, 
+      TopbarProfileInfo, 
+      TopbarSidebarToggler
+    },
 
   }
 </script>

@@ -1,14 +1,31 @@
 <template>
     <div class="row">
-        <div class="col-9 pr-3 text-right p-0">
-            <h5 class="text-custom-primary topbar-user-name m-0">Miyawaki Sakura</h5>
+        <div class="col-6 pr-3 text-right p-0">
+            <h5 class="text-custom-primary topbar-user-name m-0">{{ getUserDetail.name || 'Loading User' }}</h5>
             <span>120xp</span>
         </div>
-        <div class="col-3 p-0 text-left">
-            <img src="../assets/miyawaki-sakura.jpg" alt="" class="profile-picture rounded-circle">
+        <div class="col-6 p-0 text-left">
+            <img :src="`${getImageBaseUrl}/${getUserDetail.picture}`" alt="" class="profile-picture rounded-circle">
         </div>
     </div>
 </template>
+
+<script>
+
+import { BASE_URL } from '@/commons/config';
+
+export default {
+    computed: {
+        getUserDetail() {
+            return this.$store.getters['auth/getUserDetail'];
+        },
+        getImageBaseUrl() {
+            return `${BASE_URL}/img/profiles`;
+        }
+    }
+}
+
+</script>
 
 <style scoped>
 
