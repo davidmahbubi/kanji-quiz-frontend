@@ -3,7 +3,7 @@
         <b-row>
             <b-col class="text-center">
                 <quiz-card class="text-center px-5 py-2">
-                    <h1 class="text-custom-primary mb-0">{{ getQuestion.question }}</h1>
+                    <h1 class="text-custom-primary mb-0">{{ getQuestion ? getQuestion.question : '...' }}</h1>
                 </quiz-card>
             </b-col>
         </b-row>
@@ -14,14 +14,14 @@
                         <b-col class="mb-4" :sm="12" :md="6">
                             <quiz-card class="py-0 text-left w-100">
                                 <b-form-radio name="asda" value="adas">
-                                    {{ getQuestion.option_a }}
+                                    {{ getQuestion ? getQuestion.option_a : '...' }}
                                 </b-form-radio>
                             </quiz-card>
                         </b-col>
                         <b-col class="mb-4" :sm="12" :md="6">
                             <quiz-card class="py-0 text-left w-100">
                                 <b-form-radio name="asda" value="adas">
-                                    {{ getQuestion.option_b }}
+                                    {{ getQuestion ? getQuestion.option_b : '...' }}
                                 </b-form-radio>
                             </quiz-card>
                         </b-col>
@@ -30,14 +30,14 @@
                         <b-col class="mb-4" :sm="12" :md="6">
                             <quiz-card class="py-0 text-left w-100">
                                 <b-form-radio name="asda" value="adas">
-                                    {{ getQuestion.option_c }}
+                                    {{ getQuestion ? getQuestion.option_c : '...' }}
                                 </b-form-radio>
                             </quiz-card>
                         </b-col>
                         <b-col class="mb-4" :sm="12" :md="6">
                             <quiz-card class="py-0 text-left w-100">
                                 <b-form-radio name="asda" value="adas">
-                                    {{ getQuestion.option_d }}
+                                    {{ getQuestion ? getQuestion.option_d : '...' }}
                                 </b-form-radio>
                             </quiz-card>
                         </b-col>
@@ -61,19 +61,23 @@
 import QuizCard from '@/components/QuizCard.vue';
 
 export default {
+    
     beforeCreate() {
-        if (!this.$store.getters['question/getInQuiz']) {
-            this.$router.push({name: 'QuizArea'});
+        if (!this.$store.getters['question/getInQuiz'] && this.$store.getters['question/getQuestionsList'].length <= 0) {
+            this.$router.replace({name: 'QuizArea'});
         }
     },
+
     computed: {
         getQuestion() {
             return this.$store.getters['question/getQuestion'](this.$route.params.number);
         }
     },
+
     components: {
         QuizCard,
     },
+
 };
 
 </script>

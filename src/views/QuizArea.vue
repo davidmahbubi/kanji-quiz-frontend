@@ -50,7 +50,7 @@
 
         beforeCreate() {
             if (this.$store.getters['question/getInQuiz']) {
-                this.$router.push({name: 'QuizAreaQuestion', number: 1})
+                this.$router.replace({path: '/quiz_area/1'});
             }
         },
 
@@ -77,7 +77,7 @@
                 try {
                     await this.$store.dispatch(`question/${RETRIEVE_QUESTIONS}`, this.selectedLevel);
                     this.$store.commit(`question/${START_QUIZ}`);
-                    this.$router.push({path: '/quiz_area/1'});
+                    this.$router.replace({path: '/quiz_area/1'});
                 } catch (error) {
                     Notiflix.Notify.Failure(error);
                 }
