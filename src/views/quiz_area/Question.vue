@@ -47,7 +47,12 @@
                             <button class="btn btn-custom-outline-primary py-2 px-3">Previous</button>
                         </b-col>
                         <b-col class="text-right">
-                            <button class="btn btn-custom-primary px-3">Next</button>
+                            <router-link :to="{path: `/quiz_area/${ getCurrentNumber + 1}`}" v-if="getCurrentNumber < getQuestionData.questionCount">
+                                <button class="btn btn-custom-primary px-3">Next</button>
+                            </router-link>
+                            <router-link to="/" v-else>
+                                <button class="btn btn-custom-primary px-3">Finish</button>
+                            </router-link>
                         </b-col>
                     </b-row>
                 </b-form-group>
@@ -69,14 +74,25 @@ export default {
     },
 
     computed: {
+
         getQuestion() {
             return this.$store.getters['question/getQuestion'](this.$route.params.number);
-        }
+        },
+
+        getCurrentNumber() {
+            return parseInt(this.$route.params.number);
+        },
+
+        getQuestionData() {
+            return this.$store.getters['question/getQuestionData'];
+        },
     },
 
-    components: {
-        QuizCard,
-    },
+    methods: {
+        clearQuestion() {
+            this
+        }
+    }
 
 };
 

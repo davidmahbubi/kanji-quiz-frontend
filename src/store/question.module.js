@@ -16,7 +16,7 @@ const getters = {
     },
 
     getQuestion: state => number => {
-        return state.questionsList[number];
+        return state.questionsList[number - 1];
     },
 
     getQuestionData(state) {
