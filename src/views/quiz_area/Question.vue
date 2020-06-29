@@ -88,11 +88,9 @@ export default {
         },
     },
 
-    methods: {
-        clearQuestion() {
-            this
-        }
-    }
+    components: {
+        QuizCard,
+    },
 
 };
 
