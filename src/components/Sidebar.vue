@@ -10,8 +10,8 @@
                         <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('Home')}">
                             <router-link :to="{name: 'Home'}">Dashboard</router-link>
                         </li>
-                        <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('QuizArea')}">
-                            <router-link :to="{name: 'QuizArea', params: {id: 'start'}}">Quiz Area</router-link>
+                        <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('QuizArea', 'QuizAreaQuestion')}">
+                            <router-link :to="{name: 'QuizArea'}">Quiz Area</router-link>
                         </li>
                         <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('Statistics')}">
                             <router-link :to="{name: 'Statistics'}">Statistics</router-link>
@@ -42,8 +42,8 @@ export default {
             this.$emit('logout-clicked');
         },
 
-        isInRouteName(name) {
-            return this.$route.name === name;
+        isInRouteName(...name) {
+            return name.includes(this.$route.name);
         }
         
     },

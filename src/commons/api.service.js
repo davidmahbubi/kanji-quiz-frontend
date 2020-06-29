@@ -84,13 +84,39 @@ const auth = {
      * 
      * @param {*} slug 
      */
-    get(slug) {
+    get(slug = '') {
         return apiService.get(`auth/${slug}`);
     } 
 }
 
+const question = {
+
+    /**
+     * get request method for question
+     * 
+     * @param {*} slug 
+     */
+    get(slug = '') {
+        return apiService.get(`question/${slug}`);
+    }
+}
+
+const level = {
+
+    /**
+     * get request method for level
+     * 
+     * @param {*} slug 
+     */
+    get(slug = '') {
+        return apiService.get(`level/${slug}`);
+    }
+}
+
 export {
     auth,
+    level,
     setAuth,
+    question,
     apiService,
 }
