@@ -44,7 +44,7 @@ export default {
 
         isInRouteName(...name) {
             return name.includes(this.$route.name);
-        }
+        },
         
     },
 

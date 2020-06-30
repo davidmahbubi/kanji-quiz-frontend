@@ -1,9 +1,16 @@
 <template>
     <div class="quiz-area-page py-5">
-        <h3 class="text-custom-primary">Quiz Area</h3>
-        <span>{{ !getInQuizStatus ? 'Select level to begin' : '' }}</span>
         <b-container>
-            <section class="level-selector" v-if="!getInQuizStatus">
+            <h3 class="text-custom-primary">Quiz Area</h3>
+            <span>{{ !getInQuizStatus ? 'Select level to begin' : '' }}</span>
+            <div v-if="showRunningQuizAlert" class="text-center">
+                <empty-page class="mt-5" :img-src="require('../assets/reading-time.svg')" title="Ups, you still have a quiz session" img-max-width="400px">
+                    <h5>Finish it, or End it first</h5>
+                    <b-button to="/quiz_area/1" class="btn-custom-outline-primary px-4 mt-3 py-2 mr-2" variant="outline">End Quiz</b-button>
+                    <b-button to="/quiz_area/1" class="btn-custom-primary px-4 py-2 mt-3">Continue</b-button>
+                </empty-page>
+            </div>
+            <section class="level-selector" v-else-if="!getInQuizStatus">
                 <div class="text-center mb-5">
                     <img src="../assets/online-test.svg" class="test-image" />
                 </div>
@@ -33,6 +40,7 @@
 <script>
 
     import QuizCard from '@/components/QuizCard.vue';
+    import EmptyPage from '@/components/EmptyPage.vue';
     import { setAuth, level } from '@/commons/api.service';
     import { RETRIEVE_QUESTIONS } from '@/store/actions.type';
     import { START_QUIZ } from '@/store/mutations.type';
@@ -45,12 +53,6 @@
                 selectedLevel: '',
                 levelsList: [],
                 questionTotal: 10,
-            }
-        },
-
-        beforeCreate() {
-            if (this.$store.getters['question/getInQuiz']) {
-                this.$router.replace({path: '/quiz_area/1'});
             }
         },
 
@@ -75,11 +77,14 @@
 
             async retrieveQuestions() {
                 try {
+                    this.toggleLoading(true);
                     await this.$store.dispatch(`question/${RETRIEVE_QUESTIONS}`, this.selectedLevel);
                     this.$store.commit(`question/${START_QUIZ}`);
                     this.$router.replace({path: '/quiz_area/1'});
                 } catch (error) {
                     Notiflix.Notify.Failure(error);
+                } finally {
+                    this.toggleLoading(false);
                 }
             },
 
@@ -97,12 +102,17 @@
 
             getInQuizStatus() {
                 return this.$store.getters['question/getInQuiz'];
-            }
+            },
+
+            showRunningQuizAlert() {
+                return this.ready && this.$store.getters['question/getInQuiz'] && this.$route.path === '/quiz_area';
+            },
 
         },
 
         components: {
             QuizCard,
+            EmptyPage,
         },
     }
     

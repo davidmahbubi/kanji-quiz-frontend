@@ -80,9 +80,14 @@ export default {
             question: {
                 questionData: {},
                 question: {},
-            }
+            },
 
+            radios: null,
         }
+    },
+
+    mounted() {
+        this.radios = document.querySelectorAll('input[type=radio]');
     },
     
     beforeCreate() {
@@ -106,6 +111,7 @@ export default {
         },
 
         redirectToQuestion(number) {
+            this.clearRadioSelected(this.radios);
             this.$router.push({
                 path: `/quiz_area/${number}`
             });
@@ -118,6 +124,12 @@ export default {
                 ...this.getQuestionData(),
                 currentNumber: this.getCurrentNumber(),
             };
+        },
+
+        clearRadioSelected(radios) {
+            for (const radio of radios) {
+                radio.checked = false;
+            }
         },
         
         getQuestionData() {
