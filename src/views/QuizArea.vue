@@ -79,8 +79,8 @@
                 try {
                     this.toggleLoading(true);
                     await this.$store.dispatch(`question/${RETRIEVE_QUESTIONS}`, this.selectedLevel);
+                    await this.$router.replace({path: '/quiz_area/1'});
                     this.$store.commit(`question/${START_QUIZ}`);
-                    this.$router.replace({path: '/quiz_area/1'});
                 } catch (error) {
                     Notiflix.Notify.Failure(error);
                 } finally {
