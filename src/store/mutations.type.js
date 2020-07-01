@@ -6,3 +6,7 @@ export const SAVE_QUESTIONS_LIST = 'saveQuestionList';
 export const DELETE_QUESTIONS_LIST = 'destroyQuestionList';
 export const SAVE_QUESTION_DATA = 'saveQuestionData';
 export const START_QUIZ = 'startQuiz';
+export const ANSWER_QUESTION = 'answerQuestion';
+export const CLEAR_USER_ANSWER = 'clearUserAnswer';
+export const DELETE_QUESTION_DATA = 'deleteQuestionData';
+export const END_QUIZ = 'endQuiz';

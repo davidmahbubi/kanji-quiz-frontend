@@ -1,4 +1,14 @@
-import { SAVE_QUESTIONS_LIST, DELETE_QUESTIONS_LIST, SAVE_QUESTION_DATA, START_QUIZ } from '@/store/mutations.type';
+import {
+    SAVE_QUESTIONS_LIST,
+    DELETE_QUESTIONS_LIST,
+    SAVE_QUESTION_DATA,
+    START_QUIZ,
+    ANSWER_QUESTION,
+    CLEAR_USER_ANSWER,
+    DELETE_QUESTION_DATA,
+    END_QUIZ,
+} from '@/store/mutations.type';
+
 import { RETRIEVE_QUESTIONS } from '@/store/actions.type';
 import { question } from '@/commons/api.service';
 
@@ -16,7 +26,7 @@ const getters = {
     },
 
     getQuestion: state => number => {
-        return state.questionsList[number - 1];
+        return state.questionsList[number];
     },
 
     getQuestionData(state) {
@@ -31,6 +41,10 @@ const getters = {
         return state.inQuiz;
     },
 
+    getAnswer: state => index => {
+        return state.userAnswer[index] ? state.userAnswer[index].answer : null;
+    },
+
 };
 
 const mutations = {
@@ -41,7 +55,11 @@ const mutations = {
 
     [SAVE_QUESTION_DATA](state, questionData) {
         state.questionData = questionData;
-    } ,
+    },
+
+    [DELETE_QUESTION_DATA](state) {
+        state.questionData = {};
+    },
 
     [DELETE_QUESTIONS_LIST](state) {
         state.questionsList = [];
@@ -49,7 +67,22 @@ const mutations = {
 
     [START_QUIZ](state) {
         state.inQuiz = true;
-    }
+    },
+
+    [END_QUIZ](state) {
+        state.inQuiz = false;
+    },
+
+    [ANSWER_QUESTION](state, {index, questionId, answer}) {
+        state.userAnswer[index] = {
+            answer,
+            id: questionId,
+        };
+    },
+
+    [CLEAR_USER_ANSWER](state) {
+        state.userAnswer = [];
+    },
     
 };
 

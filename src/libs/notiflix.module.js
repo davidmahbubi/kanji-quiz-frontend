@@ -21,4 +21,10 @@ Notiflix.Notify.Init({
     }
 });
 
+Notiflix.Confirm.Init({
+    okButtonBackground: '#8900CE',
+    titleColor: '#8900CE',
+    cssAnimationStyle: 'zoom',
+})
+
 window.Notiflix = Notiflix;
