@@ -90,7 +90,6 @@ const auth = {
 }
 
 const question = {
-
     /**
      * get request method for question
      * 
@@ -98,7 +97,18 @@ const question = {
      */
     get(slug = '') {
         return apiService.get(`question/${slug}`);
-    }
+    },
+}
+
+const quiz = {
+    /**
+     * post request method for qui
+     * 
+     * @param {*} slug 
+     */
+    post(slug = '', params) {
+        return apiService.post(`quiz/${slug}`, params);
+    },
 }
 
 const level = {
@@ -115,6 +125,7 @@ const level = {
 
 export {
     auth,
+    quiz,
     level,
     setAuth,
     question,

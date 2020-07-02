@@ -10,7 +10,7 @@
                         <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('Home')}">
                             <router-link :to="{name: 'Home'}">Dashboard</router-link>
                         </li>
-                        <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('QuizArea', 'QuizAreaQuestion')}">
+                        <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('QuizArea', 'QuizAreaQuestion', 'QuizAreaResult')}">
                             <router-link :to="{name: 'QuizArea'}">Quiz Area</router-link>
                         </li>
                         <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('Statistics')}">

@@ -45,15 +45,17 @@
                         </b-row>
                         <b-row class="mt-3">
                             <b-col class="text-left">
-                                <b-button @click="previous" class="btn-custom-outline-primary py-2 px-3" variant="outline" :disabled="question.questionData.currentNumber === 1">
+                                <b-button @click="previous" class="btn-custom-outline-primary py-2 px-3"
+                                    variant="outline" :disabled="question.questionData.currentNumber === 1">
                                     Previous
                                 </b-button>
                             </b-col>
                             <b-col class="text-right">
-                                <b-button @click="next" class="btn btn-custom-primary px-3" v-if="question.questionData.currentNumber < question.questionData.questionCount">
+                                <b-button @click="next" class="btn btn-custom-primary px-3"
+                                    v-if="question.questionData.currentNumber < question.questionData.questionCount">
                                     Next
                                 </b-button>
-                                <b-button class="btn btn-custom-primary px-3" v-else>
+                                <b-button @click="finish" class="btn btn-custom-primary px-3" v-else>
                                     Finish
                                 </b-button>
                             </b-col>
@@ -66,130 +68,136 @@
 </template>
 
 <script>
+    import QuizCard from '@/components/QuizCard.vue';
+    import {
+        ANSWER_QUESTION
+    } from '@/store/mutations.type'
 
-import QuizCard from '@/components/QuizCard.vue';
-import { ANSWER_QUESTION } from '@/store/mutations.type'
+    export default {
 
-export default {
+        data() {
 
-    data() {
-        
-        return {
-            
-            userInput: {
-                answer: '',
-            },
+            return {
 
-            question: {
-                questionData: {},
-                question: {},
-            },
+                userInput: {
+                    answer: '',
+                },
 
-            radios: null,
-        }
-    },
-    
-    beforeCreate() {
-        if (!this.$store.getters['question/getInQuiz'] && this.$store.getters['question/getQuestionsList'].length <= 0) {
-            this.$router.replace({name: 'QuizArea'});
-        }
-    },
-    
-    mounted() {
-        this.radios = document.querySelectorAll('input[type=radio]');
-        this.setup();
-        for (const radio of this.radios) {
-            radio.addEventListener('click', this.submitAnswer);
-        }
-    },
-
-    methods: {
-
-        setup() {
-
-            this.question = this.getQuestion(this.getPageIndex() - 1);
-
-            this.question.questionData = {
-                ...this.getQuestionData(),
-                currentNumber: this.getPageIndex(),
-            };
-            
-            const userAnswer = this.$store.getters['question/getAnswer'](this.getPageIndex() - 1);
-
-            if (userAnswer) {
-                this.selectAnswerRadio(userAnswer);
+                question: {
+                    questionData: {},
+                    question: {},
+                },
+                loading: false,
+                radios: null,
             }
-
-        },
-        
-        next() {
-            this.redirectToQuestion(this.getPageIndex() + 1);
         },
 
-        previous() {
-            this.redirectToQuestion(this.getPageIndex() - 1);
+        beforeCreate() {
+            if (!this.$store.getters['question/getInQuiz'] && this.$store.getters['question/getQuestionsList'].length <=
+                0) {
+                this.$router.replace({
+                    name: 'QuizArea'
+                });
+            }
         },
 
-        selectAnswerRadio(answer) {
-            
-            // TODO: Do some research to fix below's bugs
-            
-            const answerRadio = document.querySelector(`input[value=${answer}]`);
-            answerRadio.checked = true;
-            makeLog('ANSWER_RADIO', 'checked');
-            console.log(answerRadio);
-            console.log(answerRadio.checked);
-        },
-
-        redirectToQuestion(number) {
-            this.userInput.answer = '';
-            this.clearRadioSelected(this.radios);
-            this.$router.push({
-                path: `/quiz_area/${number}`
-            });
+        mounted() {
+            this.radios = document.querySelectorAll('input[type=radio]');
             this.setup();
-        },
-
-        clearRadioSelected(radios) {
-            for (const radio of radios) {
-                radio.checked = false;
+            for (const radio of this.radios) {
+                radio.addEventListener('click', this.submitAnswer);
             }
-            makeLog('CLEAR RADIO SELECTED', 'cleared');
-        },
-        
-        getQuestionData() {
-            return this.$store.getters['question/getQuestionData'] || {};
         },
 
-        getQuestion(number) {
-            return this.$store.getters['question/getQuestion'](number) || {};
-        },
+        methods: {
 
-        getPageIndex() {
-            return parseInt(this.$route.params.number);
-        },
+            setup() {
 
-    },
+                this.question = this.getQuestion(this.getPageIndex() - 1);
 
-    watch: {
-        userInput: {
-            handler(e) {
-                if (e.answer) {
-                    this.$store.commit(`question/${ANSWER_QUESTION}`, {
-                        index: this.question.questionData.currentNumber - 1,
-                        questionId: this.question.id,
-                        answer: e.answer,
-                    });
+                this.question.questionData = {
+                    ...this.getQuestionData(),
+                    currentNumber: this.getPageIndex(),
+                };
+
+                const userAnswer = this.$store.getters['question/getSingleAnswer'](this.getPageIndex() - 1);
+
+                if (userAnswer) {
+                    this.selectAnswerRadio(userAnswer);
+                }
+
+            },
+
+            next() {
+                this.redirectToQuestion(this.getPageIndex() + 1);
+            },
+
+            previous() {
+                this.redirectToQuestion(this.getPageIndex() - 1);
+            },
+
+            finish() {
+                this.$emit('finish');
+            },
+
+            selectAnswerRadio(answer) {
+
+                // TODO: Do some research to fix below's bugs
+
+                const answerRadio = document.querySelector(`input[value=${answer}]`);
+                answerRadio.checked = true;
+                makeLog('ANSWER_RADIO', 'checked');
+                console.log(answerRadio);
+                console.log(answerRadio.checked);
+            },
+
+            redirectToQuestion(number) {
+                this.userInput.answer = '';
+                this.clearRadioSelected(this.radios);
+                this.$router.push({
+                    path: `/quiz_area/${number}`
+                });
+                this.setup();
+            },
+
+            clearRadioSelected(radios) {
+                for (const radio of radios) {
+                    radio.checked = false;
                 }
             },
-            deep: true,
-        }
-    },
 
-    components: {
-        QuizCard,
-    },
+            getQuestionData() {
+                return this.$store.getters['question/getQuestionData'] || {};
+            },
 
-};
+            getQuestion(number) {
+                return this.$store.getters['question/getQuestion'](number) || {};
+            },
 
+            getPageIndex() {
+                return parseInt(this.$route.params.number);
+            },
+
+        },
+
+        watch: {
+            userInput: {
+                handler(e) {
+                    if (e.answer) {
+                        this.$store.commit(`question/${ANSWER_QUESTION}`, {
+                            index: this.question.questionData.currentNumber - 1,
+                            questionId: this.question.id,
+                            answer: e.answer,
+                        });
+                    }
+                },
+                deep: true,
+            }
+        },
+
+        components: {
+            QuizCard,
+        },
+
+    };
 </script>

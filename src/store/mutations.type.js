@@ -10,3 +10,5 @@ export const ANSWER_QUESTION = 'answerQuestion';
 export const CLEAR_USER_ANSWER = 'clearUserAnswer';
 export const DELETE_QUESTION_DATA = 'deleteQuestionData';
 export const END_QUIZ = 'endQuiz';
+export const SAVE_RESULT = 'saveResult';
+export const DELETE_RESULTS = 'deleteResults'

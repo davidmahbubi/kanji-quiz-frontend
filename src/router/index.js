@@ -37,6 +37,11 @@ Vue.use(VueRouter)
     component: () => import(/* webpackChunkName: "quiz-area" */ '../views/QuizArea.vue'),
     children: [
       {
+        path: 'result',
+        name: 'QuizAreaResult',
+        component: () => import(/* webpackChunkName: "quiz-area-result" */ '../views/quiz_area/Result.vue'),
+      },
+      {
         path: ':number',
         name: 'QuizAreaQuestion',
         component: () => import(/* webpackChunkName: "quiz-area-question" */ '../views/quiz_area/Question.vue'),

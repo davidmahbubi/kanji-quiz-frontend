@@ -10,7 +10,7 @@
                     <b-button to="/quiz_area/1" class="btn-custom-primary px-4 py-2 mt-3">Continue</b-button>
                 </empty-page>
             </div>
-            <section class="level-selector" v-else-if="!getInQuizStatus">
+            <section class="level-selector" v-else-if="!getInQuizStatus && !getInResultStatus">
                 <div class="text-center mb-5">
                     <img src="../assets/online-test.svg" class="test-image" />
                 </div>
@@ -31,7 +31,9 @@
                 </b-row>
             </section>
             <section>
-                <router-view/>
+                <b-overlay :show="!ready">
+                    <router-view @finish="finishQuiz" @end-result="endResult"/>
+                </b-overlay>
             </section>
         </b-container>
     </div>
@@ -42,8 +44,8 @@
 import QuizCard from '@/components/QuizCard.vue';
 import EmptyPage from '@/components/EmptyPage.vue';
 import { setAuth, level } from '@/commons/api.service';
-import { RETRIEVE_QUESTIONS } from '@/store/actions.type';
-import { START_QUIZ, DELETE_QUESTIONS_LIST, CLEAR_USER_ANSWER, DELETE_QUESTION_DATA, END_QUIZ } from '@/store/mutations.type';
+import { RETRIEVE_QUESTIONS, FINISH_QUIZ } from '@/store/actions.type';
+import { START_QUIZ, DELETE_QUESTIONS_LIST, CLEAR_USER_ANSWER, DELETE_QUESTION_DATA, END_QUIZ, DELETE_RESULTS } from '@/store/mutations.type';
 
 export default {
 
@@ -97,13 +99,40 @@ export default {
                 'Do you really want to end the active quiz ?',
                 'Yes',
                 'No',
-                () => {
-                    this.$store.commit(`question/${DELETE_QUESTIONS_LIST}`);
-                    this.$store.commit(`question/${CLEAR_USER_ANSWER}`);
-                    this.$store.commit(`question/${DELETE_QUESTION_DATA}`);
-                    this.$store.commit(`question/${END_QUIZ}`);
-                }
+                this.clearQuiz,
             );
+        },
+
+        clearQuiz() {
+            this.$store.commit(`question/${DELETE_QUESTIONS_LIST}`);
+            this.$store.commit(`question/${CLEAR_USER_ANSWER}`);
+            this.$store.commit(`question/${DELETE_QUESTION_DATA}`);
+            this.$store.commit(`question/${END_QUIZ}`);
+            this.$store.commit(`question/${DELETE_RESULTS}`);
+        },
+
+        async finishQuiz() {
+            try {
+                Notiflix.Confirm.Show(
+                    'Confirmation',
+                    'Finish this quiz ?',
+                    'Yes',
+                    'No',
+                    async () => {
+                        this.ready = false;
+                        setAuth();
+                        await this.$store.dispatch(`question/${FINISH_QUIZ}`, this.$store.getters['question/getAnswers']);
+                        this.ready = true;
+                        this.$router.replace({name: 'QuizAreaResult'});
+                    }
+                );
+            } catch (error) {
+                Notiflix.Notify.Failure('An error occured while submitting data to server !');
+            }
+        },
+
+        endResult() {
+            this.clearQuiz();
         },
 
         toggleLoading(state) {
@@ -125,6 +154,10 @@ export default {
         showRunningQuizAlert() {
             return this.ready && this.$store.getters['question/getInQuiz'] && this.$route.path === '/quiz_area';
         },
+
+        getInResultStatus() {
+            return !!this.$store.getters['question/getResults'];
+        }
 
     },
 

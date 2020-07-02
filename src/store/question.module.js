@@ -7,15 +7,18 @@ import {
     CLEAR_USER_ANSWER,
     DELETE_QUESTION_DATA,
     END_QUIZ,
+    SAVE_RESULT,
+    DELETE_RESULTS
 } from '@/store/mutations.type';
 
-import { RETRIEVE_QUESTIONS } from '@/store/actions.type';
-import { question } from '@/commons/api.service';
+import { RETRIEVE_QUESTIONS, FINISH_QUIZ } from '@/store/actions.type';
+import { question, quiz } from '@/commons/api.service';
 
 const state = {
     questionsList: [],
     userAnswer: [],
     questionData: {},
+    results: null,
     inQuiz: false,
 };
 
@@ -41,9 +44,17 @@ const getters = {
         return state.inQuiz;
     },
 
-    getAnswer: state => index => {
+    getSingleAnswer: state => index => {
         return state.userAnswer[index] ? state.userAnswer[index].answer : null;
     },
+
+    getAnswers(state) {
+        return state.userAnswer;
+    },
+
+    getResults(state) {
+        return state.results;
+    }
 
 };
 
@@ -83,6 +94,14 @@ const mutations = {
     [CLEAR_USER_ANSWER](state) {
         state.userAnswer = [];
     },
+
+    [SAVE_RESULT](state, result) {
+        state.results = result;
+    },
+
+    [DELETE_RESULTS](state) {
+        state.results = null;
+    }
     
 };
 
@@ -112,6 +131,19 @@ const actions = {
               .catch((error) => {
                   reject(error);
               })
+        });
+    },
+
+    // TODO: Finish this one after you continue develop the backend
+
+    [FINISH_QUIZ]({ commit }, answer) {
+        return new Promise((resolve, reject) => {
+            quiz.post('submit_quiz', answer)
+              .then((result) => {
+                  commit(SAVE_RESULT, result.data.data.data);
+                  resolve(result);
+              })
+              .catch((error) => reject(error));
         });
     },
 
