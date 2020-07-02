@@ -14,9 +14,15 @@
                     <h3>{{ result.wrong ? result.wrong.length : '' }}</h3>
                 </div>
             </div>
-            <b-button class="btn-custom-primary px-3">Review</b-button>
+            <b-button class="btn-custom-primary px-3" v-b-modal.review-modal>Review</b-button>
             <router-link to="/quiz_area" class="d-block mt-3 text-custom-primary">Back to home</router-link>
         </quiz-card>
+        <b-modal id="review-modal" title="Review Quiz" ok-only>
+            <template v-slot:modal-footer="{cancel}">
+                <b-button class="btn-custom-primary px-3" @click="cancel()">Close</b-button>
+            </template>
+            <p class="my-4">Hello from modal!</p>
+        </b-modal>
     </div>
 </template>
 
@@ -51,6 +57,12 @@ export default {
                 return 'Let\'s Study Again !'
             }
 
+        }
+    },
+
+    beforeCreate() {
+        if (!this.$store.getters['question/getResults']) {
+            this.$router.replace({name: 'QuizArea'});
         }
     },
 
