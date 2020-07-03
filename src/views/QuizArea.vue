@@ -2,7 +2,7 @@
     <div class="quiz-area-page py-5">
         <b-container>
             <h3 class="text-custom-primary">Quiz Area</h3>
-            <span>{{ !getInQuizStatus ? 'Select level to begin' : '' }}</span>
+            <span>{{ !isInQuiz ? 'Select level to begin' : '' }}</span>
             <div v-if="showRunningQuizAlert" class="text-center">
                 <empty-page class="mt-5" :img-src="require('../assets/reading-time.svg')" title="Ups, you still have a quiz session" img-max-width="400px">
                     <h5>Finish it, or End it first</h5>
@@ -10,7 +10,7 @@
                     <b-button to="/quiz_area/1" class="btn-custom-primary px-4 py-2 mt-3">Continue</b-button>
                 </empty-page>
             </div>
-            <section class="level-selector" v-else-if="!getInQuizStatus && !getInResultStatus">
+            <section class="level-selector" v-else-if="!isInQuiz && !getInResultStatus">
                 <div class="text-center mb-5">
                     <img src="../assets/online-test.svg" class="test-image" />
                 </div>
@@ -45,7 +45,7 @@ import QuizCard from '@/components/QuizCard.vue';
 import EmptyPage from '@/components/EmptyPage.vue';
 import { setAuth, level } from '@/commons/api.service';
 import { RETRIEVE_QUESTIONS, FINISH_QUIZ } from '@/store/actions.type';
-import { START_QUIZ, DELETE_QUESTIONS_LIST, CLEAR_USER_ANSWER, DELETE_QUESTION_DATA, END_QUIZ, DELETE_RESULTS } from '@/store/mutations.type';
+import { DELETE_QUESTIONS_LIST, CLEAR_USER_ANSWER, DELETE_QUESTION_DATA, SET_QUIZ_ACTIVE_STATE, SAVE_RESULT, DELETE_RESULT } from '@/store/mutations.type';
 
 export default {
 
@@ -80,9 +80,9 @@ export default {
         async retrieveQuestions() {
             try {
                 this.toggleLoading(true);
-                await this.$store.dispatch(`question/${RETRIEVE_QUESTIONS}`, this.selectedLevel);
+                await this.$store.dispatch(`quiz/question/${RETRIEVE_QUESTIONS}`, this.selectedLevel);
                 await this.$router.replace({path: '/quiz_area/1'});
-                this.$store.commit(`question/${START_QUIZ}`);
+                this.$store.commit(`quiz/${SET_QUIZ_ACTIVE_STATE}`, true);
             } catch (error) {
                 Notiflix.Notify.Failure(error);
             } finally {
@@ -104,11 +104,11 @@ export default {
         },
 
         clearQuiz() {
-            this.$store.commit(`question/${DELETE_QUESTIONS_LIST}`);
-            this.$store.commit(`question/${CLEAR_USER_ANSWER}`);
-            this.$store.commit(`question/${DELETE_QUESTION_DATA}`);
-            this.$store.commit(`question/${END_QUIZ}`);
-            this.$store.commit(`question/${DELETE_RESULTS}`);
+            this.$store.commit(`quiz/question/${DELETE_QUESTIONS_LIST}`);
+            this.$store.commit(`quiz/question/${DELETE_QUESTION_DATA}`);
+            this.$store.commit(`quiz/answer/${CLEAR_USER_ANSWER}`);
+            this.$store.commit(`quiz/${SET_QUIZ_ACTIVE_STATE}`, false);
+            this.$store.commit(`quiz/result/${DELETE_RESULT}`);
         },
 
         async finishQuiz() {
@@ -120,8 +120,10 @@ export default {
                     'No',
                     async () => {
                         this.ready = false;
+                        // TODO: Make setAuth method call to elegant way :)
                         setAuth();
-                        await this.$store.dispatch(`question/${FINISH_QUIZ}`, this.$store.getters['question/getAnswers']);
+                        const quizResult = await this.$store.dispatch(`quiz/${FINISH_QUIZ}`, this.$store.getters['quiz/answer/getAnswers']);
+                        this.$store.commit(`quiz/result/${SAVE_RESULT}`, quizResult.data.data.data)
                         this.ready = true;
                         this.$router.replace({name: 'QuizAreaResult'});
                     }
@@ -147,16 +149,16 @@ export default {
             return this.selectedLevel;
         },
 
-        getInQuizStatus() {
-            return this.$store.getters['question/getInQuiz'];
+        isInQuiz() {
+            return this.$store.getters['quiz/getQuizActiveState'];
         },
 
         showRunningQuizAlert() {
-            return this.ready && this.$store.getters['question/getInQuiz'] && this.$route.path === '/quiz_area';
+            return this.ready && this.$store.getters['quiz/getQuizActiveState'] && this.$route.path === '/quiz_area';
         },
 
         getInResultStatus() {
-            return !!this.$store.getters['question/getResults'];
+            return !!this.$store.getters['quiz/result/getResult'];
         }
 
     },

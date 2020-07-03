@@ -39,12 +39,12 @@ export default {
     computed: {
 
         result() {
-            return this.$store.getters['question/getResults'] || {};
+            return this.$store.getters['quiz/result/getResult'] || {};
         },
         
         rating() {
             
-            const result = this.$store.getters['question/getResults'] || {};
+            const result = this.$store.getters['quiz/result/getResult'] || {};
             const score = result.correct && result.wrong ? result.correct.length / (result.correct.length + result.wrong.length) : 0;
             
             if (score >= 1) {
@@ -61,7 +61,7 @@ export default {
     },
 
     beforeCreate() {
-        if (!this.$store.getters['question/getResults']) {
+        if (!this.$store.getters['quiz/result/getResult']) {
             this.$router.replace({name: 'QuizArea'});
         }
     },

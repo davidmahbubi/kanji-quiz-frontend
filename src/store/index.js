@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import authModule from '@/store/auth.module';
-import questionModule from '@/store/question.module';
+import quizModule from '@/store/quiz';
 
 Vue.use(Vuex);
 
@@ -14,6 +14,6 @@ export default new Vuex.Store({
   },
   modules: {
     auth: authModule,
-    question: questionModule,
+    quiz: quizModule,
   }
-})
+});
