@@ -21,7 +21,7 @@
             <template v-slot:modal-footer="{cancel}">
                 <b-button class="btn-custom-primary px-3" @click="cancel()">Close</b-button>
             </template>
-            <p class="my-4">Hello from modal!</p>
+            <empty-page :imgSrc="require('@/assets/time.svg')" imgMaxWidth="300px" class="text-center pt-3" title="This feature is coming soon"></empty-page>
         </b-modal>
     </div>
 </template>
@@ -29,24 +29,29 @@
 <script>
 
 import QuizCard from '@/components/QuizCard.vue';
+import EmptyPage from '@/components/EmptyPage.vue';
 
 export default {
 
-    components: {
-        QuizCard,
+    beforeCreate() {
+        if (!this.$store.getters['quiz/result/getResult']) {
+            this.$router.replace({name: 'QuizArea'});
+        }
     },
 
     computed: {
-
         result() {
             return this.$store.getters['quiz/result/getResult'] || {};
         },
-        
-        rating() {
-            
+        rating() { 
             const result = this.$store.getters['quiz/result/getResult'] || {};
             const score = result.correct && result.wrong ? result.correct.length / (result.correct.length + result.wrong.length) : 0;
-            
+            return this.decideRating(score);
+        }
+    },
+
+    methods: {
+        decideRating(score) {
             if (score >= 1) {
                 return 'Perfectly';
             } else if (score >= 0.7) {
@@ -56,18 +61,16 @@ export default {
             } else {
                 return 'Let\'s Study Again !'
             }
-
-        }
-    },
-
-    beforeCreate() {
-        if (!this.$store.getters['quiz/result/getResult']) {
-            this.$router.replace({name: 'QuizArea'});
-        }
+        },
     },
 
     beforeDestroy() {
         this.$emit('end-result');
+    },
+
+    components: {
+        QuizCard,
+        EmptyPage,
     },
 
 }

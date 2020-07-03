@@ -68,6 +68,7 @@
 </template>
 
 <script>
+
 import QuizCard from '@/components/QuizCard.vue';
 import { ANSWER_QUESTION } from '@/store/actions.type';
 
@@ -99,11 +100,11 @@ export default {
     mounted() {
         // Add event listener to each option radio
         this.radios = document.querySelectorAll('input[type=radio]');
-        this.setup();
+        this.init();
     },
 
     methods: {
-        setup() {
+        init() {
             this.question = this.getQuestion(this.getPageIndex() - 1);
             this.question.questionData = {
                 ...this.getQuestionData(),
@@ -114,52 +115,41 @@ export default {
                 this.selectAnswerRadio(userAnswer);
             }
         },
-
         next() {
             this.redirectToQuestion(this.getPageIndex() + 1);
         },
-
         previous() {
             this.redirectToQuestion(this.getPageIndex() - 1);
         },
-
         finish() {
             this.$emit('finish');
         },
-
         selectAnswerRadio({ answer }) {
-            // TODO: Do some research to fix below's bugs
             const answerRadio = document.querySelector(`input[value=${answer}]`);
             answerRadio.checked = true;
         },
-
         redirectToQuestion(number) {
             this.userInput.answer = '';
             this.clearRadioSelected(this.radios);
             this.$router.push({
                 path: `/quiz_area/${number}`
             });
-            this.setup();
+            this.init();
         },
-
         clearRadioSelected(radios) {
             for (const radio of radios) {
                 radio.checked = false;
             }
         },
-
         getQuestionData() {
             return this.$store.getters['quiz/question/getQuestionData'] || {};
         },
-
         getQuestion(number) {
             return this.$store.getters['quiz/question/getQuestion'](number) || {};
         },
-
         getPageIndex() {
             return parseInt(this.$route.params.number);
         },
-
     },
 
     watch: {
