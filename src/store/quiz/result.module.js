@@ -2,6 +2,7 @@ import { SAVE_RESULT, DELETE_RESULT } from '@/store/mutations.type';
 
 const state = {
     result: null,
+    list: [],
 }
 
 const getters = {

@@ -21,7 +21,26 @@
             <template v-slot:modal-footer="{cancel}">
                 <b-button class="btn-custom-primary px-3" @click="cancel()">Close</b-button>
             </template>
-            <empty-page :imgSrc="require('@/assets/time.svg')" imgMaxWidth="300px" class="text-center pt-3" title="This feature is coming soon"></empty-page>
+            <section>
+                <h3 class="text-custom-primary mb-3">Wrong Answer</h3>
+                <p v-if="result.wrong.length <= 0">No wrong answer :)</p>
+                <ol v-else>
+                    <li v-for="(wrong_answer, index) in result.wrong" :key="index" class="mb-2">
+                        <h5>{{ wrong_answer.question }}</h5>
+                        Correct Answer : {{ wrong_answer[`option_${wrong_answer.answer}`] }}
+                    </li>
+                </ol>
+            </section>
+            <section>
+                <h3 class="text-custom-primary mb-3">Correct Answer</h3>
+                <h5 v-if="result.correct.length <= 0">No correct answer :(</h5>
+                <ol v-else>
+                    <li v-for="(correct_answer, index) in result.correct" :key="index" class="mb-2">
+                        <h5>{{ correct_answer.question }}</h5>
+                        Correct Answer : {{ correct_answer[`option_${correct_answer.answer}`] }}
+                    </li>
+                </ol>
+            </section>
         </b-modal>
     </div>
 </template>
@@ -41,6 +60,7 @@ export default {
 
     computed: {
         result() {
+            console.log(this.$store.getters['quiz/result/getResult']);
             return this.$store.getters['quiz/result/getResult'] || {};
         },
         rating() { 

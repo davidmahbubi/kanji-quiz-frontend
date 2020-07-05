@@ -16,7 +16,7 @@ const getters = {
 
   getUserDetail(state) {
     return state.userDetail;
-  }
+  },
 
 };
 
