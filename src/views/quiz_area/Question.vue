@@ -122,7 +122,13 @@ export default {
             this.redirectToQuestion(this.getPageIndex() - 1);
         },
         finish() {
-            this.$emit('finish');
+            const answeredQuestionsLength = this.$store.getters['quiz/answer/getAnswers'].filter(val => val).length;
+            const questionsCount = this.$store.getters['quiz/question/getQuestionsList'].length;
+            if (answeredQuestionsLength === questionsCount) {
+                this.$emit('finish');
+            } else {
+                Notiflix.Notify.Failure('Please complete all question first !');
+            }
         },
         selectAnswerRadio({ answer }) {
             const answerRadio = document.querySelector(`input[value=${answer}]`);
