@@ -5,3 +5,5 @@ export const USER_VERIFY = 'userVerify';
 export const RETRIEVE_QUESTIONS = 'retrieveQuestion';
 export const FINISH_QUIZ = 'finishQuiz';
 export const ANSWER_QUESTION = 'answerQuestion';
+export const SAVE_PROFILE_SETTINGS = 'saveProfileSettings';
+export const SAVE_PROFILE_PICTURE = 'saveProfilePicture';

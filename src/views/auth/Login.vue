@@ -35,9 +35,7 @@ import { auth } from '@/commons/api.service';
 import { USER_LOGIN } from '@/store/actions.type';
 
 export default {
-
     mixins: [validationMixin],
-
     data() {
         return {
             userInput: {
@@ -47,11 +45,9 @@ export default {
             loading: false,
         }
     },
-
     components: {
         AuthFormCard,
     },
-
     methods: {
 
         async submit() {
@@ -81,7 +77,6 @@ export default {
                 this.loading = false;
             }
         },
-
         validation() {
 
             this.cleanErrorMessage();
@@ -103,7 +98,6 @@ export default {
 
             }
         }
-
     }
 };
 

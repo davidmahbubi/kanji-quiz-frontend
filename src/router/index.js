@@ -52,6 +52,11 @@ Vue.use(VueRouter)
     path: '/statistics',
     name: 'Statistics',
     component: () => import(/* webpackChunkName: "statistics" */ '../views/Statistics.vue'),
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import(/* webpackChunkName: "settings" */ '../views/Settings.vue'),
   }
 ]
 

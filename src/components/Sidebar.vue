@@ -16,6 +16,9 @@
                         <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('Statistics')}">
                             <router-link :to="{name: 'Statistics'}">Statistics</router-link>
                         </li>
+                        <li class="sidebar-item" :class="{'sidebar-active': isInRouteName('Settings')}">
+                            <router-link :to="{name: 'Settings'}">Settings</router-link>
+                        </li>
                         <li class="sidebar-item">
                             <a href="#" @click.prevent="logout">Sign out</a>
                         </li>

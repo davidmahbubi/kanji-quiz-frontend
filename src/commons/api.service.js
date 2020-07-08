@@ -58,12 +58,43 @@ const apiService = {
      * @param {*} params 
      */
     post(resource, params = '') {
-        makeLog('SERVICE^', API_BASE_URL);
         return Vue.axios.post(`${API_BASE_URL}/${resource}`, params).catch((error) => {
             makeLog('SERVICE', error, true, true);
             throw new Error(error);
         });
-    }
+    },
+
+    /**
+     * postMedia with post request method
+     * 
+     * This method is for sending media(s) through
+     * HTTP Request with POST method
+     * 
+     * @param {*} resource 
+     * @param {*} params 
+     */
+    postMedia(resource, params) {
+        return Vue.axios.post(`${API_BASE_URL}/${resource}`, params, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        }).catch((error) => {
+            throw new Error(error);
+        })
+    },
+
+    /**
+     * patch request method
+     * 
+     * @param {*} resource 
+     * @param {*} params 
+     */
+    patch(resource, params = {}) {
+        return Vue.axios.patch(`${API_BASE_URL}/${resource}`, params).catch((error) => {
+            makeLog('SERVICE', error, true, true);
+            throw new Error(error);
+        })
+    },
 
 }
 
@@ -112,7 +143,6 @@ const quiz = {
 }
 
 const level = {
-
     /**
      * get request method for level
      * 
@@ -123,11 +153,33 @@ const level = {
     }
 }
 
+const settings = {
+    /**
+     * patch request method for settings
+     * 
+     * @param {*} slug 
+     * @param {*} params 
+     */
+    patch(slug = '', params) {
+        return apiService.patch(`user/update/${slug}`, params);
+    },
+    /**
+     * post request method for settings
+     * 
+     * @param {*} slug 
+     * @param {*} params 
+     */
+    postMedia(slug = '', params) {
+        return apiService.postMedia(`user/update/${slug}`, params);
+    }
+}
+
 export {
     auth,
     quiz,
     level,
     setAuth,
+    settings,
     question,
     apiService,
 }

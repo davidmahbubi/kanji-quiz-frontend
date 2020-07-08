@@ -46,9 +46,7 @@ import AuthFormCard from '@/components/AuthFormCard.vue';
 import { USER_REGISTER } from '@/store/actions.type';
 
 export default {
-
     mixins: [validationMixin],
-
     data() {
         return {
             userInput: {
@@ -60,11 +58,9 @@ export default {
             loading: false,
         }
     },
-
     components: {
         AuthFormCard,
     },
-
     methods: {
 
         async submit() {
@@ -104,7 +100,6 @@ export default {
                 this.loading = false;
             }
         },
-
         validation() {
 
             this.cleanErrorMessage();
@@ -129,7 +124,6 @@ export default {
 
         }
     }
-
 };
 
 </script>

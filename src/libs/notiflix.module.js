@@ -7,7 +7,7 @@
 import Notiflix from 'notiflix';
 
 Notiflix.Notify.Init({
-    closeButton: true,
+    // closeButton: true,
     cssAnimationStyle: 'from-right',
     success: {
         background: '#8900CE',
