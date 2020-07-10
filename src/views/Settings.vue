@@ -8,13 +8,13 @@
                 <b-overlay :show.sync="loading.profile">
                     <b-card-text class="text-center">
                         <div class="profile-img-wrapper mb-4 mt-3 d-inline-block position-relative">
-                            <form>
-                                <b-img :src="`${getImageBaseUrl}/${getUserDetail.picture}`" class="profile-img rounded-circle" fluid></b-img>
-                                <label for="input-update-img" class="position-absolute update-img-btn d-block text-light">
-                                    <i class="fas fa-camera"></i>
-                                </label>
-                                <input type="file" id="input-update-img" class="picture-input d-none" @change="handleFileChange" accept=".jpeg,.jpg,.png,.gif">
-                            </form>
+                            <div class="profile-img-wrapper rounded-circle">
+                                <b-img :src="`${getImageBaseUrl}/${getUserDetail.picture}`" class="profile-img" height="160"></b-img>
+                            </div>
+                            <label for="input-update-img" class="position-absolute update-img-btn d-block text-light">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" id="input-update-img" class="picture-input d-none" @change="handleFileChange" accept=".jpeg,.jpg,.png,.gif">
                         </div>
                         <div v-if="!toggles.name">
                             <h3 class="d-inline">{{ data.name }}</h3>
@@ -28,7 +28,7 @@
                     </b-card-text>
                 </b-overlay>
             </b-tab>
-            <b-tab title="Coming Soon :)" disabled>
+            <b-tab title="Coming Soon :)">
                 <b-card-text>Coming soon :)</b-card-text>
             </b-tab>
             </b-tabs>
@@ -132,6 +132,13 @@ export default {
 </script>
 
 <style scoped>
+
+.profile-img-wrapper {
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+    background-size: cover;
+}
 
 .profile-img {
     max-width: 170px !important;

@@ -5,7 +5,9 @@
             <span>{{ getScoreCount }}xp</span>
         </div>
         <div class="col-md-6 col-4 p-0 text-left">
-            <img :src="`${getImageBaseUrl}/${getUserDetail.picture}`" alt="" class="profile-picture rounded-circle">
+            <div class="profile-img-wrapper rounded-circle">
+                <img :src="`${getImageBaseUrl}/${getUserDetail.picture}`" alt="" class="profile-picture rounded-circle">
+            </div>
         </div>
     </div>
 </template>
@@ -39,11 +41,18 @@ export default {
 
 .topbar-user-name {
     font-size: 17px;
-  }
+}
 
 .profile-picture {
-    width: 60px;
+    width: 64px;
+    height: 64px;
     box-shadow: 0 0 10px rgba(146, 13, 255, 0.3);
+}
+
+.profile-img-wrapper {
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
 }
 
 </style>
