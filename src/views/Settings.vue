@@ -22,13 +22,29 @@
                         </div>
                         <div v-else>
                             <input type="text" class="text-center input-custom-primary" value="David Mahbubi" v-model="data.name">
-                            <i data-field="name" @click.prevent="saveSingleItem" class="fas fa-save ml-2 attr-action-icon attr-action-icon-big"></i>
+                            <i data-field="name" @click.prevent="updateName" class="fas fa-save ml-2 attr-action-icon attr-action-icon-big"></i>
                         </div>
                         <span>@{{ getUserDetail.username }}</span>
                     </b-card-text>
                 </b-overlay>
             </b-tab>
-            <b-tab title="Coming Soon :)">
+            <b-tab title="Security">
+                <b-row class="mt-3">
+                    <b-col :sm="12" :md="6" :lg="8" :xl="5">
+                        <b-form-group label="Update Password" class="pt-2">
+                            <form @submit.prevent="updatePassword" data-field="password">
+                                <input type="password" class="mb-3 input-custom-primary w-100"  placeholder="Old Password" v-model="data.currentPassword">
+                                <input type="password" class="mb-3 input-custom-primary w-100"  placeholder="New Password" v-model="data.password">
+                                <input type="password" class="mb-3 input-custom-primary w-100"  placeholder="Confirm Password" v-model="data.confirmPassword">
+                                <div class="text-right">
+                                    <b-button type="submit" class="btn-custom-primary px-3 w-100">Confirm Password Update</b-button>
+                                </div>
+                            </form>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+            </b-tab>
+            <b-tab title="Coming Soon" disabled>
                 <b-card-text>Coming soon :)</b-card-text>
             </b-tab>
             </b-tabs>
@@ -40,7 +56,7 @@
 <script>
 
 import { BASE_URL } from '@/commons/config';
-import { SAVE_PROFILE_SETTINGS, SAVE_PROFILE_PICTURE } from '@/store/actions.type';
+import { SAVE_PROFILE_SETTINGS, SAVE_PROFILE_PICTURE, SAVE_PROFILE_PASSWORD } from '@/store/actions.type';
 import { SAVE_USER } from '@/store/mutations.type';
 
 export default {
@@ -52,6 +68,9 @@ export default {
             data: {
                 name: '',
                 picture: null,
+                currentPassword: '',
+                password: '',
+                confirmPassword: '',
             },
             loading: {
                 profile: false,
@@ -63,19 +82,46 @@ export default {
         }
     },
     methods: {
-        async saveSingleItem(e) {
+        async updateName() {
             try {
                 this.loading.profile = true;
-                const editField = e.target.dataset.field;
-                const { data } = await this.$store.dispatch(`settings/${SAVE_PROFILE_SETTINGS}`, {
-                    field: editField,
-                    value: this.data[editField],
+                const { data } = await this.sendData(SAVE_PROFILE_SETTINGS, {
+                    field: 'name',
+                    value: this.data.name,
                 });
-                Notiflix.Notify.Success('Updated !');
-                this.$store.commit(`auth/${SAVE_USER}`, data.data.user);
-                this.toggles[editField] = false;
+                if (data.success) {
+                    Notiflix.Notify.Success('Profile Updated !');
+                    this.$store.commit(`auth/${SAVE_USER}`, data.data.user);
+                    this.toggles.name = false;
+                }
             } catch (error) {
-                Notiflix.Notify.Failure(`Error ! ${error}`);
+                console.log(error);
+                Notiflix.Notify.Failure(error);
+            } finally {
+                this.loading.profile = false;
+            }
+        },
+        async updatePassword() {
+            try {
+                this.loading.profile = true;
+                if (this.data.password === this.data.confirmPassword) {
+                    const { data } = await this.$store.dispatch(`settings/${SAVE_PROFILE_PASSWORD}`, {
+                        password: this.data.password,
+                        current_password: this.data.currentPassword,
+                    });
+                    if (data.success) {
+                        Notiflix.Notify.Success('Password Updated !');
+                        this.data.currentPassword = '';
+                        this.data.password = '';
+                        this.data.confirmPassword = '';
+                    } else {
+                        Notiflix.Notify.Failure(data.message);
+                    }
+                } else {
+                    Notiflix.Notify.Failure('Password din\'t match !');
+                }
+            } catch (error) {
+
             } finally {
                 this.loading.profile = false;
             }
@@ -83,9 +129,9 @@ export default {
         async handleFileChange({ target }) {
             try {
                 this.loading.profile = true;
-                const picture = target.files[0];
+                const [ picture ] = target.files;
                 if (picture && this.validate(picture)) {
-                    const { data } = await this.$store.dispatch(`settings/${SAVE_PROFILE_PICTURE}`, this.generateFormData('profile_picture', picture));
+                    const { data } = await this.sendData(SAVE_PROFILE_PICTURE, this.generateFormData('profile_picture', picture));
                     this.$store.commit(`auth/${SAVE_USER}`, data.data.user);
                     Notiflix.Notify.Success('Profile picture updated');
                 }
@@ -99,6 +145,9 @@ export default {
             const formData = new FormData();
             formData.append(name, file);
             return formData;
+        },
+        sendData(action, params) {
+            return this.$store.dispatch(`settings/${action}`, params);
         },
         validate(files) {
             

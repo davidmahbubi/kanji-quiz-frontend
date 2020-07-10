@@ -1,4 +1,4 @@
-import { SAVE_PROFILE_SETTINGS, SAVE_PROFILE_PICTURE } from '@/store/actions.type';
+import { SAVE_PROFILE_SETTINGS, SAVE_PROFILE_PICTURE, SAVE_PROFILE_PASSWORD } from '@/store/actions.type';
 import { setAuth, settings } from '@/commons/api.service';
 
 const actions = {
@@ -15,6 +15,18 @@ const actions = {
                   reject(error);
               })
         });
+    },
+    [SAVE_PROFILE_PASSWORD](ctx, passwords) {
+        return new Promise((resolve, reject) => {
+            setAuth();
+            settings.patch('password', passwords)
+              .then((result) => {
+                  resolve(result);
+              })
+              .catch((error) => {
+                  reject(error);
+              });
+        })
     },
     [SAVE_PROFILE_PICTURE](ctx, picture) {
         return new Promise((resolve, reject) => {
