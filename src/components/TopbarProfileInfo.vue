@@ -1,10 +1,10 @@
 <template>
     <div class="row">
-        <div class="col-md-6 col-8 pr-3 text-right p-0">
+        <div class="col-sm-6 col-6 col-sm-6 pr-3 text-right p-0">
             <h5 class="text-custom-primary topbar-user-name m-0">{{ getUserDetail.name || 'Loading User' }}</h5>
             <span>{{ getScoreCount }}xp</span>
         </div>
-        <div class="col-md-6 col-4 p-0 text-left">
+        <div class="col-sm-6 p-0 col-6 text-left">
             <div class="profile-img-wrapper rounded-circle">
                 <img :src="`${getImageBaseUrl}/${getUserDetail.picture}`" alt="" class="profile-picture rounded-circle">
             </div>

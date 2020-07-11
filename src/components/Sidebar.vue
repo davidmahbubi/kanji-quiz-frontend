@@ -24,6 +24,7 @@
                         </li>
                     </ul>
                 </div>
+                <span class="position-absolute text-center" style="bottom: 10px; right: 0; left: 0;">v1.0.0 Dev</span>
             </div>
         </div>
     </div>
