@@ -30,7 +30,7 @@
                     </b-col>
                 </b-row>
             </section>
-            <section>
+            <section class="main-page">
                 <b-overlay :show="!ready">
                     <router-view @finish="finishQuiz" @end-result="endResult"/>
                 </b-overlay>
@@ -91,9 +91,7 @@ export default {
         },
 
         endQuiz() {
-            
             // TODO: Wrap below's commit into Quiz Vuex Module
-
             Notiflix.Confirm.Show(
                 'Confirmation',
                 'Do you really want to end the active quiz ?',
