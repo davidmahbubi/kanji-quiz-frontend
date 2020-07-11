@@ -4,16 +4,16 @@
         <quiz-card class="mt-5">
             <h4 class="mb-0">{{ rating }}</h4>
             <span>+{{ result.score }} exp</span>
-            <div class="row my-5">
-                <div class="col px-md-5">
+            <b-row class="my-5">
+                <b-col class="px-md-5">
                     <img src="../../assets/correct.svg" alt="" class="w-100 mb-2 mx-4 mx-md-1" style="max-width: 80px">
                     <h3>{{ result.correct ? result.correct.length : '' }}</h3>
-                </div>
-                <div class="col px-md-5">
+                </b-col>
+                <b-col class="px-md-5">
                     <img src="../../assets/wrong.svg" alt="" class="w-100 mb-2 mx-4 mx-md-1" style="max-width: 80px">
                     <h3>{{ result.wrong ? result.wrong.length : '' }}</h3>
-                </div>
-            </div>
+                </b-col>
+            </b-row>
             <b-button class="btn-custom-primary px-3" v-b-modal.review-modal>Review</b-button>
             <router-link to="/quiz_area" class="d-block mt-3 text-custom-primary">Back to home</router-link>
         </quiz-card>
