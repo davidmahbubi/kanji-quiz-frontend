@@ -34,11 +34,6 @@ import SettingSecurity from '@/components/SettingSecurity.vue';
 export default {
     data() {
         return {
-            data: {
-                currentPassword: '',
-                password: '',
-                confirmPassword: '',
-            },
             loading: false,
         }
     },
