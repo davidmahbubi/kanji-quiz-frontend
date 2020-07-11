@@ -5,23 +5,20 @@
         <b-card no-body>
             <b-overlay :show.sync="loading">
                 <b-tabs card>
-                <b-tab title="Profile" active>
-                    <b-overlay :show.sync="loading.profile">
-                        <b-card-text class="text-center">
-                            <setting-profile @loading="toggleLoading" />
-                        </b-card-text>
-                    </b-overlay>
-                </b-tab>
-                <b-tab title="Security">
-                    <b-row class="mt-3">
-                        <b-col :sm="12" :md="6" :lg="8" :xl="5">
-                            <setting-security @loading="toggleLoading" />
-                        </b-col>
-                    </b-row>
-                </b-tab>
-                <b-tab title="Coming Soon" disabled>
-                    <b-card-text>Coming soon :)</b-card-text>
-                </b-tab>
+                    <b-tab title="Profile" active>
+                        <b-overlay :show.sync="loading.profile">
+                            <b-card-text class="text-center">
+                                <setting-profile @loading="toggleLoading" />
+                            </b-card-text>
+                        </b-overlay>
+                    </b-tab>
+                    <b-tab title="Security">
+                        <b-row class="mt-3">
+                            <b-col :sm="12" :md="6" :lg="8" :xl="5">
+                                <setting-security @loading="toggleLoading" />
+                            </b-col>
+                        </b-row>
+                    </b-tab>
                 </b-tabs>
             </b-overlay>
         </b-card>
