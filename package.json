@@ -12,6 +12,7 @@
     "axios": "^0.19.2",
     "bootstrap-vue": "^2.15.0",
     "core-js": "^3.6.5",
+    "highcharts": "^8.1.2",
     "notiflix": "^2.3.2",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",

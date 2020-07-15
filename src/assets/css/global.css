@@ -1,4 +1,14 @@
 @font-face {
+    font-family: 'Hind Vadovara';
+    src: url('https://fonts.googleapis.com/css2?family=Hind+Vadodara&display=swap');
+}
+
+@font-face {
+    font-family: 'Hind Vadovara';
+    src: url('https://fonts.googleapis.com/css2?family=Hind+Vadodara:wght@700&display=swap');
+    font-weight: 700;
+}
+/* @font-face {
     font-family: 'Alef-Regular';
     src: url('../fonts/alef_regular.woff2') format('woff2');
 }
@@ -6,10 +16,11 @@
 @font-face {
     font-family: 'Alef-Bold';
     src: url('../fonts/alef_bold.woff2') format('woff2');
-}
+} */
 
 body {
-    font-family: 'Alef-Regular' !important;
+    /* font-family: 'Alef-Regular' !important; */
+    font-family: 'Hind Vadovara', Arial, Helvetica, sans-serif;
 }
 
 .row {
@@ -21,12 +32,12 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: 'Alef-Bold' !important;
-    font-weight: bold !important;
+    /* font-family: 'Barlow Condensed' !important; */
+    font-weight: 700 !important;
 }
 
 .text-custom-bold {
-    font-family: 'Alef-Bold';
+    font-family: 'Hind Vadovara';
     font-weight: bold;
 }
 

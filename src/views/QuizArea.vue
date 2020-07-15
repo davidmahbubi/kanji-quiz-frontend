@@ -12,7 +12,7 @@
             </div>
             <section class="level-selector" v-else-if="!isInQuiz && !getInResultStatus">
                 <div class="text-center mb-5">
-                    <img src="../assets/online-test.svg" class="test-image" />
+                    <img src="../assets/superwoman.svg" class="test-image"/>
                 </div>
                 <b-row>
                     <b-col :md="7" :xl="4" :lg="6" class="mx-auto">
@@ -181,7 +181,7 @@ export default {
 
     .test-image {
         width: 100%;
-        max-width: 500px;
+        max-width: 300px;
     }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="auth-form-card">
         <b-row>
-            <b-col :sm="10" :md="8" :lg="7" :xl="6" class="mx-auto">
+            <b-col :sm="12" :md="10" :lg="7" :xl="6" class="mx-auto">
                 <b-card class="auth-form-card-item">
                     <b-card-body>
                         <slot/>
