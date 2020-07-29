@@ -38,6 +38,11 @@ export default {
     box-shadow: none;
     right: -14px;
     top: -14px;
+    transition: .2s;
+}
+
+.banner-close-bt:hover {
+    transform: scale(1.09);
 }
 
 </style>

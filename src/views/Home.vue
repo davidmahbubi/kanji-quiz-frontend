@@ -5,18 +5,13 @@
       <b-button class="px-3 mt-1 btn-custom-primary" :to="{name: 'QuizArea'}">Start Your First Quiz</b-button>
     </empty-page>
     <section v-else>
-      <banner class="mx-3" v-show="bannerActive" @close-bt-pressed="bannerActive = false" />
-      <b-row class="mt-4 mb-5">
-        <b-col :xl="3" :sm="6" class="mb-sm-0 mb-2">
-          <home-highlight-card title="Play Times" :value="`${getPlayTimes}x`" />
-        </b-col>
-        <b-col :xl="3" :sm="6" class="mb-sm-0 mb-2">
-          <home-highlight-card title="Perfect Times" :value="`${getPerfectTimes}x`" />
-        </b-col>
-      </b-row>
+      <banner class="mx-3 d-none d-md-block" v-show="bannerActive" @close-bt-pressed="bannerActive = false" />
+      <home-highlight-list :contents="highlightDatas" />
       <b-row>
         <b-col>
-          <b-table striped hover :items="getPlayHistories"></b-table>
+          <div class="table-responsive">
+            <b-table striped hover :items="getPlayHistories"></b-table>
+          </div>
         </b-col>
       </b-row>
     </section>
@@ -25,7 +20,7 @@
 
 <script>
 
-import HomeHighlightCard from '@/components/HomeHighlightCard.vue';
+import HomeHighlightList from '@/components/HomeHighlightList.vue';
 import EmptyPage from '@/components/EmptyPage.vue';
 import Banner from '@/components/Banner.vue';
 
@@ -34,15 +29,18 @@ export default {
   data() {
     return {
       bannerActive: true,
+      highlightDatas: [
+          {
+            title: 'Play Times',
+            value: this.$store.getters['auth/getUserDetail'].quiz_result ? this.$store.getters['auth/getUserDetail'].quiz_result.length : [],
+          }
+      ]
     }
   },
   components: {
     EmptyPage,
-    HomeHighlightCard,
+    HomeHighlightList,
     Banner,
-  },
-  mounted() {
-    this.generatePerfectRateChart('#perfect-rate-chart');
   },
   computed: {
     // TODO: Please keep DRY here !
