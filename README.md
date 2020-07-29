@@ -6,7 +6,7 @@
 
 ## What is this 😕 ?
 
-This is a Kanji Quiz Website, my personal project 😁. This is a Frontend page only ! for Backend, you can go [https://github.com/davidmahbubi/kanji_quiz_backend](here)
+This is a Kanji Quiz Website, my personal project 😁. This is a Frontend page only ! for Backend, you can go [Kanji Quiz Backend Repository](https://github.com/davidmahbubi/kanji_quiz_backend)
 
 ## Technologies Behind This Project 👨‍💻
 * [VueJS](https://vuejs.org)
@@ -40,3 +40,6 @@ npm run build
 
 ## Contribution 
 Please feel free to contribute for this project 💖
+
+## License
+[MIT](https://www.mit.edu/~amini/LICENSE.md)
