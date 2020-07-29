@@ -10,19 +10,19 @@
 This is a Kanji Quiz Website, my personal project 😁. This is a Frontend page only ! for Backend, you can go [https://github.com/davidmahbubi/kanji_quiz_backend](here)
 
 ## Technologies Behind This Project 👨‍💻
-* (VueJS) [https://vuejs.org]
- * (Vue CLI) [https://cli.vuejs.org]
- * (Vue Router) [https://router.vuejs.org]
- * (Vuex) [https://vuex.vuejs.org]
- * (Vue Axios) [https://github.com/imcvampire/vue-axios]
- * (Animated Vue) [https://github.com/radical-dreamers/animated-vue](Animated Vue)
-* (Axios) [https://github.com/axios/axios]
-* (Bootstrap Vue) [https://bootstrap-vue.org/]
-* (Animate.css) [https://animate.style/]
-* (Notiflix) [https://www.notiflix.com/]
+* [https://vuejs.org](VueJS)
+ * [https://cli.vuejs.org](Vue CLI)
+ * [https://router.vuejs.org](Vue Router)
+ * [https://vuex.vuejs.org](Vuex)
+ * [https://github.com/imcvampire/vue-axios](Vue Axios)
+ * [https://github.com/radical-dreamers/animated-vue](Animated Vue)
+* [https://github.com/axios/axios](Axios)
+* [https://bootstrap-vue.org/](Bootstrap Vue)
+* [https://animate.style/](Animate.css)
+* [https://www.notiflix.com/](Notiflix)
 
 ## Project Team 😲
-Maintainer, Developer : [https://mhbproject.com](David Mahbubi) 🛠
+Maintainer & Developer : (David Mahbubi)[https://mhbproject.com]🛠
 
 ## Project Setup ⚙
 ```
